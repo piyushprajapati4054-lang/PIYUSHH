@@ -1,0 +1,44 @@
+[build]
+  publish = "."
+
+# Clean URL Routing for Netlify
+[[redirects]]
+  from = "/about"
+  to = "/about.html"
+  status = 200
+
+[[redirects]]
+  from = "/services"
+  to = "/services.html"
+  status = 200
+
+[[redirects]]
+  from = "/pricing"
+  to = "/pricing.html"
+  status = 200
+
+[[redirects]]
+  from = "/projects"
+  to = "/projects.html"
+  status = 200
+
+[[redirects]]
+  from = "/hire-me"
+  to = "/hire-me.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact"
+  to = "/hire-me.html"
+  status = 200
+
+# Cache video assets efficiently
+[[headers]]
+  for = "/*.mp4"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/frames/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

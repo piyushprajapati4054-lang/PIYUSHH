@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=hire-me.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hire Me - Work With Piyushh</title>
+    <script>window.location.replace('hire-me.html' + window.location.search);</script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --electric-blue: #3B82F6;
+            --electric-blue-hover: #2563EB;
+            --electric-blue-glow: rgba(59, 130, 246, 0.30);
+            --orange: #3B82F6;
+            --accent-lime: #B6FF6A;
+            --text-light: #e0e0e0;
+            --text-dark: #888888;
+            --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Ambient Background */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 75% 25%, rgba(182, 255, 106, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 25% 75%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(15, 15, 15, 1) 0%, rgba(10, 10, 10, 1) 100%);
+            z-index: -2;
+        }
+
+        /* --- Navbar --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 60px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .logo a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo span {
+            color: white;
+            background: linear-gradient(to right, #ffffff 20%, var(--electric-blue) 50%, #ffffff 80%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmerText 4s linear infinite;
+        }
+
+        @keyframes shimmerText {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            background: rgba(15, 15, 15, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 18px 50px;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-links a {
+            color: #d1d1d1;
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--accent-lime);
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(182, 255, 106, 0.4);
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: #ffffff;
+        }
+
+        .btn-talk {
+            background: var(--accent-lime);
+            color: #0a0a0a;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 250ms var(--ease-premium), box-shadow 250ms var(--ease-premium);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-talk:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(182, 255, 106, 0.3);
+        }
+
+        /* --- Contact Page Container --- */
+        .contact-page-wrapper {
+            padding: 170px 20px 140px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .contact-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 20px;
+            border-radius: 100px;
+            background: rgba(182, 255, 106, 0.08);
+            border: 1px solid rgba(182, 255, 106, 0.25);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-lime);
+            margin-bottom: 24px;
+        }
+
+        .contact-badge .dot {
+            width: 7px;
+            height: 7px;
+            background-color: var(--accent-lime);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-lime);
+        }
+
+        .contact-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8rem;
+            color: #ffffff;
+            margin-bottom: 16px;
+            font-weight: 600;
+            line-height: 1.15;
+        }
+
+        .contact-title .lime-highlight {
+            color: var(--accent-lime);
+            font-style: italic;
+        }
+
+        .contact-subtitle {
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+            max-width: 650px;
+            line-height: 1.6;
+        }
+
+        /* Form Container */
+        .contact-form-container {
+            max-width: 740px;
+            width: 100%;
+            background: #111111;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+            padding: 50px 45px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 40px rgba(182, 255, 106, 0.03);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-form-container:focus-within {
+            border-color: rgba(182, 255, 106, 0.35);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(182, 255, 106, 0.08);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            margin-bottom: 22px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: left;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: #cccccc;
+            letter-spacing: 0.5px;
+        }
+
+        .form-label .required {
+            color: var(--accent-lime);
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            background: #181818;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 14px 18px;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.98rem;
+            outline: none;
+            transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: var(--accent-lime);
+            background: #1c1c1c;
+            box-shadow: 0 0 15px rgba(182, 255, 106, 0.15);
+        }
+
+        .form-input::placeholder, .form-textarea::placeholder {
+            color: #555555;
+        }
+
+        .form-select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B6FF6A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+        }
+
+        .form-select option {
+            background: #181818;
+            color: #ffffff;
+        }
+
+        .form-textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .form-submit-btn {
+            width: 100%;
+            padding: 18px 32px;
+            background: var(--accent-lime);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 10px 30px rgba(182, 255, 106, 0.25);
+            margin-top: 10px;
+        }
+
+        .form-submit-btn:hover {
+            transform: translateY(-3px);
+            background: #c7ff85;
+            box-shadow: 0 16px 38px rgba(182, 255, 106, 0.4);
+        }
+
+        .form-submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-submit-btn .btn-arrow {
+            display: inline-block;
+            transition: transform 0.25s ease;
+            font-size: 1.2rem;
+        }
+
+        .form-submit-btn:hover .btn-arrow {
+            transform: translateX(6px);
+        }
+
+        /* Status Alert Message */
+        .form-status-alert {
+            margin-top: 24px;
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            display: none;
+            text-align: center;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .form-status-alert.success {
+            display: block;
+            background: rgba(182, 255, 106, 0.1);
+            border: 1px solid rgba(182, 255, 106, 0.4);
+            color: var(--accent-lime);
+        }
+
+        .form-status-alert.error {
+            display: block;
+            background: rgba(255, 77, 77, 0.1);
+            border: 1px solid rgba(255, 77, 77, 0.4);
+            color: #ff6b6b;
+        }
+
+        /* Direct Contact Cards Row */
+        .direct-contact-row {
+            display: flex;
+            gap: 24px;
+            margin-top: 45px;
+            max-width: 740px;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-info-pill {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            padding: 12px 24px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.92rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info-pill:hover {
+            border-color: var(--accent-lime);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 20;
+        }
+
+        footer .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 24px 25px; }
+            .nav-links { display: none; }
+            .contact-page-wrapper { padding: 130px 20px 80px 20px; }
+            .contact-title { font-size: 2.6rem; }
+            .contact-form-container { padding: 35px 22px; }
+            .form-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg"></div>
+
+    <!-- Navigation Header -->
+    <nav>
+        <div class="logo">
+            <a href="index.html">
+                <span>Work With Piyushh</span>
+            </a>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html" target="_blank" rel="noopener noreferrer">About</a>
+            <a href="services.html">Services</a>
+            <a href="projects.html">Projects</a>
+            <a href="contact.html" class="active">Contact</a>
+        </div>
+        <a href="hire-me.html" class="btn-talk">Hire Me</a>
+    </nav>
+
+    <main class="contact-page-wrapper">
+        <div class="contact-badge">
+            <span class="dot"></span>
+            LET'S WORK TOGETHER
+        </div>
+        <h1 class="contact-title">Start a Project. <span class="lime-highlight">Hire Me.</span></h1>
+        <p class="contact-subtitle">
+            Have an advertising campaign, video project, website, or custom collaboration in mind? Fill out the details below and I'll get back to you within 24 hours.
+        </p>
+
+        <!-- The Exact Same Contact Form Component -->
+        <div class="contact-form-container">
+            <form id="contactForm" novalidate>
+                <div class="form-grid">
+                    <!-- Full Name -->
+                    <div class="form-group">
+                        <label class="form-label" for="fullName">Full Name <span class="required">*</span></label>
+                        <input type="text" id="fullName" name="fullName" class="form-input" placeholder="e.g. Alex Morgan" required autocomplete="name">
+                    </div>
+
+                    <!-- Email Address -->
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="e.g. alex@example.com" required autocomplete="email">
+                    </div>
+
+                    <!-- WhatsApp Number -->
+                    <div class="form-group">
+                        <label class="form-label" for="whatsapp">WhatsApp Number <span class="required">*</span></label>
+                        <input type="tel" id="whatsapp" name="whatsapp" class="form-input" placeholder="e.g. +1 555 123 4567" required autocomplete="tel">
+                    </div>
+
+                    <!-- Service Required -->
+                    <div class="form-group">
+                        <label class="form-label" for="service">Service Required <span class="required">*</span></label>
+                        <select id="service" name="service" class="form-select" required>
+                            <option value="" disabled selected>Select a service</option>
+                            <option value="Website Design">Website Design</option>
+                            <option value="Ad Creative">Ad Creative</option>
+                            <option value="Video Editing">Video Editing</option>
+                            <option value="Collaboration">Collaboration</option>
+                        </select>
+                    </div>
+
+                    <!-- Project Budget -->
+                    <div class="form-group full-width">
+                        <label class="form-label" for="budget">Project Budget (Optional)</label>
+                        <select id="budget" name="budget" class="form-select">
+                            <option value="" selected>Select estimated budget</option>
+                            <option value="Under $500">Under $500</option>
+                            <option value="$500 - $1,500">$500 - $1,500</option>
+                            <option value="$1,500 - $3,000">$1,500 - $3,000</option>
+                            <option value="$3,000+">$3,000+</option>
+                        </select>
+                    </div>
+
+                    <!-- Message -->
+                    <div class="form-group full-width">
+                        <label class="form-label" for="message">Message / Project Goals <span class="required">*</span></label>
+                        <textarea id="message" name="message" class="form-textarea" placeholder="Tell me about your brand, campaign goals, key deliverables, and timeline..." required></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="form-submit-btn" id="contactSubmitBtn">
+                    Send Inquiry <span class="btn-arrow">&rarr;</span>
+                </button>
+
+                <div class="form-status-alert" id="formStatusAlert"></div>
+            </form>
+        </div>
+
+        <!-- Direct Contact Alternatives -->
+        <div class="direct-contact-row">
+            <a href="mailto:contactwithpiyush.01@gmail.com" class="contact-info-pill">
+                <span>&#9993;</span> contactwithpiyush.01@gmail.com
+            </a>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=contactwithpiyush.01%40gmail.com" target="_blank" rel="noopener noreferrer" class="contact-info-pill">
+                <span>&#10148;</span> Compose in Gmail
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-brand">PIYUSHH</div>
+        <p>&copy; 2026 Work With Piyushh. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const contactForm = document.getElementById('contactForm');
+        const contactSubmitBtn = document.getElementById('contactSubmitBtn');
+        const formStatusAlert = document.getElementById('formStatusAlert');
+        const serviceSelect = document.getElementById('service');
+
+        // Automatically select "Collaboration" or "Website Design" if present in URL
+        function checkServiceParam() {
+            if (!serviceSelect) return;
+            const params = new URLSearchParams(window.location.search);
+            const reqService = params.get('service');
+            if (reqService === 'Collaboration' || reqService === 'Website Design') {
+                serviceSelect.value = reqService;
+            }
+        }
+
+        checkServiceParam();
+        window.addEventListener('hashchange', checkServiceParam);
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const fullName = document.getElementById('fullName').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const whatsapp = document.getElementById('whatsapp').value.trim();
+                const service = document.getElementById('service').value;
+                const budget = document.getElementById('budget').value;
+                const message = document.getElementById('message').value.trim();
+
+                if (!fullName || !email || !whatsapp || !service || !message) {
+                    formStatusAlert.className = 'form-status-alert error';
+                    formStatusAlert.textContent = 'Please fill out all required fields marked with an asterisk (*).';
+                    formStatusAlert.style.display = 'block';
+                    return;
+                }
+
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    formStatusAlert.className = 'form-status-alert error';
+                    formStatusAlert.textContent = 'Please enter a valid email address.';
+                    formStatusAlert.style.display = 'block';
+                    return;
+                }
+
+                contactSubmitBtn.disabled = true;
+                contactSubmitBtn.innerHTML = 'Sending Inquiry... <span class="btn-arrow">&rarr;</span>';
+                formStatusAlert.style.display = 'none';
+
+                try {
+                    const response = await fetch('/api/contact', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            fullName,
+                            email,
+                            whatsapp,
+                            service,
+                            budget,
+                            message
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        formStatusAlert.className = 'form-status-alert success';
+                        formStatusAlert.innerHTML = `
+                            <strong>&#10003; Inquiry Sent Successfully!</strong><br>
+                            Thank you, <strong>${fullName}</strong>! Your inquiry (#${result.inquiryId}) has been saved to the database and forwarded to <strong>contactwithpiyush.01@gmail.com</strong>. I'll reach out to your WhatsApp/Email within 24 hours.
+                        `;
+                        formStatusAlert.style.display = 'block';
+                        contactForm.reset();
+                    } else {
+                        formStatusAlert.className = 'form-status-alert error';
+                        formStatusAlert.textContent = result.error || 'Unable to submit your inquiry. Please try again.';
+                        formStatusAlert.style.display = 'block';
+                    }
+                } catch (err) {
+                    formStatusAlert.className = 'form-status-alert error';
+                    formStatusAlert.innerHTML = `
+                        Network error connecting to the backend server. You can also reach me directly at <a href="mailto:contactwithpiyush.01@gmail.com" style="color: #fff; text-decoration: underline;">contactwithpiyush.01@gmail.com</a>.
+                    `;
+                    formStatusAlert.style.display = 'block';
+                } finally {
+                    contactSubmitBtn.disabled = false;
+                    contactSubmitBtn.innerHTML = 'Send Inquiry <span class="btn-arrow">&rarr;</span>';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

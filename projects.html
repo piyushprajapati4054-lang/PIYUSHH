@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects &amp; Ads - Work With Piyushh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --card-bg: #121212;
+            --electric-blue: #3B82F6;
+            --electric-blue-hover: #2563EB;
+            --electric-blue-glow: rgba(59, 130, 246, 0.30);
+            --orange: #3B82F6;
+            --text-light: #e0e0e0;
+            --text-dark: #888888;
+            --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Ambient Background */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 55%),
+                radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(15, 15, 15, 1) 0%, rgba(10, 10, 10, 1) 100%);
+            z-index: -2;
+        }
+
+        /* --- Navbar --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 60px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .logo a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo span {
+            color: white;
+            background: linear-gradient(to right, #ffffff 20%, var(--electric-blue) 50%, #ffffff 80%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmerText 4s linear infinite;
+        }
+
+        @keyframes shimmerText {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            background: rgba(15, 15, 15, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 18px 50px;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-links a {
+            color: #d1d1d1;
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--electric-blue);
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: #ffffff;
+        }
+
+        .btn-talk {
+            background: var(--electric-blue);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 250ms var(--ease-premium), box-shadow 250ms var(--ease-premium), background-color 250ms ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-talk:hover {
+            background: var(--electric-blue-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        /* --- Header Section --- */
+        .projects-header {
+            padding: 160px 40px 50px 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 20px;
+            border-radius: 100px;
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--electric-blue);
+            margin-bottom: 24px;
+        }
+
+        .header-badge .dot {
+            width: 7px;
+            height: 7px;
+            background-color: var(--electric-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--electric-blue);
+        }
+
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.2rem;
+            font-weight: 600;
+            line-height: 1.15;
+            color: #ffffff;
+            margin-bottom: 20px;
+            max-width: 850px;
+        }
+
+        .header-title .orange-text,
+        .header-title .blue-text {
+            color: var(--electric-blue);
+            font-style: italic;
+        }
+
+        .header-description {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: var(--text-light);
+            max-width: 680px;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        /* Portfolio Filters */
+        .portfolio-filters {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 50px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-light);
+            padding: 11px 24px;
+            border-radius: 50px;
+            font-size: 0.92rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--electric-blue);
+            color: #ffffff;
+            border-color: var(--electric-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--electric-blue-glow);
+        }
+
+        /* =========================================================
+           CINEMATIC INFINITE ADS SHOWCASE TIMELINE
+           ========================================================= */
+        .timeline-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 20px;
+            border-radius: 100px;
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--electric-blue);
+            margin-bottom: 24px;
+        }
+
+        .timeline-badge .dot {
+            width: 7px;
+            height: 7px;
+            background-color: var(--electric-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--electric-blue);
+        }
+
+        .ads-timeline-viewport {
+            width: 100%;
+            max-width: 100%;
+            position: relative;
+            left: 0;
+            right: 0;
+            margin: 0;
+            overflow: hidden;
+            padding: 20px 0 25px 0;
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+            box-sizing: border-box;
+        }
+
+        .ads-timeline-viewport:active {
+            cursor: grabbing;
+        }
+
+        .timeline-edge-fade {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 70px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .timeline-edge-fade.left {
+            left: 0;
+            background: linear-gradient(to right, #0a0a0a 0%, rgba(10, 10, 10, 0) 100%);
+        }
+
+        .timeline-edge-fade.right {
+            right: 0;
+            background: linear-gradient(to left, #0a0a0a 0%, rgba(10, 10, 10, 0) 100%);
+        }
+
+        .ads-timeline-track {
+            display: flex;
+            width: max-content;
+            will-change: transform;
+            animation: scrollAdsTimeline var(--timeline-duration, 38s) linear infinite;
+        }
+
+        .ads-timeline-viewport:hover .ads-timeline-track,
+        .ads-timeline-track.is-paused {
+            animation-play-state: paused !important;
+        }
+
+        @keyframes scrollAdsTimeline {
+            0% {
+                transform: translate3d(0, 0, 0);
+            }
+            100% {
+                transform: translate3d(-50%, 0, 0);
+            }
+        }
+
+        .timeline-track-group {
+            display: flex;
+            gap: 28px;
+            padding-right: 28px;
+            flex-shrink: 0;
+        }
+
+        .timeline-ad-card {
+            width: 390px;
+            flex-shrink: 0;
+            background: #141418;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
+                        border-color 0.4s ease,
+                        box-shadow 0.4s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .timeline-ad-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75), 0 0 25px rgba(59, 130, 246, 0.15);
+        }
+
+        .timeline-media-wrapper {
+            width: 100%;
+            height: 235px;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timeline-media-wrapper video,
+        .timeline-media-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .timeline-ad-card:hover .timeline-media-wrapper video,
+        .timeline-ad-card:hover .timeline-media-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .timeline-media-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(10, 10, 10, 0.75);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            padding: 5px 12px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .timeline-ad-card:hover .timeline-media-badge {
+            background: var(--electric-blue);
+            border-color: var(--electric-blue);
+        }
+
+        .timeline-card-content {
+            padding: 22px 24px 24px 24px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .timeline-category-tag {
+            color: var(--electric-blue);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .timeline-card-title {
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .timeline-card-brand {
+            color: var(--text-dark);
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+            font-weight: 400;
+        }
+
+        .timeline-card-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-light);
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: auto;
+            transition: color 0.3s ease;
+        }
+
+        .timeline-card-action .action-arrow {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .timeline-ad-card:hover .timeline-card-action {
+            color: var(--electric-blue);
+        }
+
+        .timeline-ad-card:hover .timeline-card-action .action-arrow {
+            transform: translate(3px, -3px);
+        }
+
+        .timeline-status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            padding: 10px 20px 35px 20px;
+            color: var(--text-dark);
+            font-size: 0.85rem;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .timeline-control-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--text-light);
+            padding: 7px 18px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .timeline-control-btn:hover {
+            background: var(--electric-blue);
+            color: #ffffff;
+            border-color: var(--electric-blue);
+            box-shadow: 0 4px 15px var(--electric-blue-glow);
+        }
+
+        .timeline-grid-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px 0 40px 0;
+            position: relative;
+        }
+
+        .timeline-grid-divider::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        }
+
+        .timeline-grid-divider .divider-label {
+            position: relative;
+            background: #0a0a0a;
+            padding: 0 20px;
+            color: var(--text-dark);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .ads-timeline-track {
+                animation: none !important;
+            }
+            .ads-timeline-viewport {
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+            }
+            .timeline-ad-card {
+                scroll-snap-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .timeline-ad-card {
+                width: 310px;
+            }
+            .timeline-media-wrapper {
+                height: 200px;
+            }
+            .timeline-edge-fade {
+                width: 40px;
+            }
+            .timeline-card-title {
+                font-size: 1.15rem;
+            }
+        }
+
+        /* --- Gallery Section --- */
+        .projects-section {
+            padding: 20px 0 140px 0;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 20;
+            box-sizing: border-box;
+        }
+
+        .projects-section .timeline-badge {
+            padding-left: 20px;
+            padding-right: 20px;
+            box-sizing: border-box;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+            gap: 36px;
+            max-width: 1300px;
+            width: 100%;
+            padding: 0 24px;
+            box-sizing: border-box;
+        }
+
+        .premium-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+            cursor: pointer;
+        }
+
+        .premium-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
+        }
+
+        .project-media-wrapper {
+            width: 100%;
+            height: 320px;
+            overflow: hidden;
+            position: relative;
+            background: #000;
+        }
+
+        .project-media-wrapper video, .project-media-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .premium-card:hover .project-media-wrapper video,
+        .premium-card:hover .project-media-wrapper img {
+            transform: scale(1.03);
+        }
+
+        .media-badge {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: rgba(10, 10, 10, 0.75);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            padding: 6px 14px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .premium-card:hover .media-badge {
+            background: var(--electric-blue);
+            border-color: var(--electric-blue);
+        }
+
+        .project-content {
+            padding: 38px 36px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .project-category {
+            color: var(--electric-blue);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .project-title {
+            color: #ffffff;
+            font-size: 1.7rem;
+            font-weight: 600;
+            margin-bottom: 14px;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.3px;
+        }
+
+        .project-desc {
+            color: var(--text-light);
+            font-size: 0.98rem;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            flex: 1;
+            font-weight: 300;
+        }
+
+        .card-link {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: auto;
+            transition: color 0.3s;
+        }
+
+        .card-link svg {
+            transition: transform 0.3s;
+        }
+
+        .premium-card:hover .card-link {
+            color: var(--electric-blue);
+        }
+
+        .premium-card:hover .card-link svg {
+            transform: translateX(5px);
+        }
+
+        /* --- Project Detail Lightbox Modal --- */
+        .project-modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(4, 4, 4, 0.88);
+            backdrop-filter: blur(16px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+        }
+
+        .project-modal-backdrop.is-active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .project-modal-dialog {
+            background: #141414;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            max-width: 860px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            transform: scale(0.94) translateY(20px);
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .project-modal-backdrop.is-active .project-modal-dialog {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(20, 20, 20, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.25s ease;
+        }
+
+        .modal-close-btn:hover {
+            background: var(--electric-blue);
+            border-color: var(--electric-blue);
+            transform: rotate(90deg);
+        }
+
+        .modal-media-container {
+            width: 100%;
+            background: #000;
+            border-radius: 28px 28px 0 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-height: 520px;
+        }
+
+        .modal-media-container video, .modal-media-container img {
+            width: 100%;
+            max-height: 520px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .modal-content-body {
+            padding: 35px 40px 40px 40px;
+        }
+
+        .modal-category-tag {
+            color: var(--electric-blue);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: #ffffff;
+            margin-bottom: 16px;
+        }
+
+        .modal-description {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .modal-meta-row {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-dark);
+            font-size: 0.9rem;
+        }
+
+        .modal-meta-item strong {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 60px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 20;
+        }
+
+        footer .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        /* --- Responsiveness --- */
+        @media (max-width: 1024px) {
+            .header-title { font-size: 3.4rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 24px 25px; }
+            .nav-links { display: none; }
+            .projects-header { padding: 130px 20px 40px 20px; }
+            .header-title { font-size: 2.6rem; }
+            .projects-section { padding: 10px 0 100px 0 !important; }
+            .project-content { padding: 30px 24px; }
+            .modal-content-body { padding: 25px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg"></div>
+
+    <!-- Navigation Header -->
+    <nav>
+        <div class="logo">
+            <a href="index.html">
+                <span>Work With Piyushh</span>
+            </a>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="pricing.html">Pricing</a>
+            <a href="projects.html" class="active">Projects</a>
+            <a href="hire-me.html">Contact</a>
+        </div>
+        <a href="hire-me.html" class="btn-talk">Hire Me</a>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="projects-header">
+        <div class="header-badge">
+            <span class="dot"></span>
+            PORTFOLIO &amp; SHOWCASE
+        </div>
+        <h1 class="header-title">Commercial Ads &amp; <span class="blue-text">Digital Work.</span></h1>
+        <p class="header-description">
+            High-converting video advertisements, product creatives, and digital design projects engineered to captivate audiences and elevate creator brands.
+        </p>
+    </header>
+
+    <!-- Main Projects Section with Infinite Timeline & Catalog Grid -->
+    <section class="projects-section" id="projects">
+        <!-- 1. Cinematic Infinitely Scrolling Ads Timeline -->
+        <div class="timeline-badge">
+            <span class="dot"></span>
+            FEATURED COMMERCIAL SHOWCASE
+        </div>
+        
+        <div class="ads-timeline-viewport" id="adsTimelineViewport" aria-label="Infinite Ads Showcase Timeline">
+            <div class="timeline-edge-fade left" aria-hidden="true"></div>
+            <div class="timeline-edge-fade right" aria-hidden="true"></div>
+            <div class="ads-timeline-track" id="adsTimelineTrack">
+                <!-- Dynamically generated seamless loop cards -->
+            </div>
+        </div>
+
+        <!-- Status Bar / Controls -->
+        <div class="timeline-status-bar">
+            <div class="timeline-status-hint">
+                <span>✦ Hover or swipe cards to explore commercial projects</span>
+            </div>
+            <div class="timeline-controls">
+                <button class="timeline-control-btn" id="toggleTimelinePauseBtn" aria-label="Pause or Resume Timeline Motion">
+                    <span id="timelinePauseIcon">⏸</span> <span id="timelinePauseText">Pause Timeline</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Divider & Filtered Grid View -->
+        <div class="timeline-grid-divider">
+            <span class="divider-label">FULL PROJECT CATALOG</span>
+        </div>
+
+        <!-- Category Filter Buttons -->
+        <div class="portfolio-filters">
+            <button class="filter-btn active" data-filter="all">All Projects</button>
+            <button class="filter-btn" data-filter="product-ad">Product Commercials</button>
+            <button class="filter-btn" data-filter="video-ad">Video Ads</button>
+            <button class="filter-btn" data-filter="social-ad">Social Media Ads</button>
+            <button class="filter-btn" data-filter="web-design">Web Design</button>
+        </div>
+
+        <div class="projects-grid" id="projectsContainer">
+            <!-- Dynamically rendered project cards from adProjectsData -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-brand">PIYUSHH</div>
+        <p>&copy; 2026 Work With Piyushh. All rights reserved.</p>
+    </footer>
+
+    <!-- --- PROJECT DETAIL LIGHTBOX MODAL --- -->
+    <div class="project-modal-backdrop" id="projectModal" aria-hidden="true" role="dialog">
+        <div class="project-modal-dialog">
+            <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close project modal">&times;</button>
+            <div class="modal-media-container" id="modalMedia"></div>
+            <div class="modal-content-body">
+                <div class="modal-category-tag" id="modalCategory">Category</div>
+                <h3 class="modal-title" id="modalTitle">Project Title</h3>
+                <p class="modal-description" id="modalDescription">Project description goes here.</p>
+                <div class="modal-meta-row">
+                    <div class="modal-meta-item">Project Type: <strong id="modalType">Video Ad Creative</strong></div>
+                    <div class="modal-meta-item">Creator / Editor: <strong>PIYUSHH</strong></div>
+                    <div class="modal-meta-item">Status: <strong>Active Portfolio Item</strong></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reusable Clean Data & Timeline Scripts -->
+    <script>
+        // Clean, reusable project data structure
+        const adProjectsData = {
+            'laptop-ad-a': {
+                title: 'Laptop Product Commercial (Cut A)',
+                brand: 'NextGen Pro Computing',
+                category: 'Product Advertisement',
+                badge: '▶ Video Ad',
+                type: 'video',
+                src: 'ads/laptop_ad_creative_a.mp4',
+                description: 'High-definition motion product commercial focusing on industrial laptop design, display clarity, and aesthetic angles. Formatted for commercial distribution and premium product showcases.'
+            },
+            'laptop-ad-b': {
+                title: 'Laptop Product Commercial (Cut B)',
+                brand: 'Craftsmanship & Performance',
+                category: 'Product Advertisement',
+                badge: '▶ Commercial',
+                type: 'video',
+                src: 'ads/laptop_ad_creative_b.mp4',
+                description: 'Dynamic alternative commercial cut emphasizing product craftsmanship, performance capability, and sleek modern form with fast-paced visual pacing.'
+            },
+            'social-ad-video': {
+                title: 'Dynamic Brand Video Creative',
+                brand: 'Social Creator Campaign',
+                category: 'Social Media Ad',
+                badge: '★ Cinematic Ad',
+                type: 'video',
+                src: 'ads/brand_commercial_video.mp4',
+                description: 'High-engagement social video creative optimized for digital feeds, mobile viewers, and creator branding campaigns.'
+            },
+            'product-cutaway-ad': {
+                title: 'Product Feature Cutaway Commercial',
+                brand: 'Precision Hardware Showcase',
+                category: 'Video Ad',
+                badge: '▶ 3D Cutaway',
+                type: 'video',
+                src: 'ads/product_cutaway_ad.mp4',
+                description: 'Cinematic product cutaway commercial showcasing precision details, engineering features, and premium materials.'
+            },
+            'fintech-dashboard': {
+                title: 'Fintech Dashboard Platform',
+                brand: 'CryptoFlow Analytics',
+                category: 'Web Design',
+                badge: '✦ Web Platform',
+                type: 'image',
+                src: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                description: 'A comprehensive financial dashboard designed for modern crypto traders with real-time analytics and clean UI architecture.'
+            },
+            'social-campaign': {
+                title: 'High-Impact Social Ad Campaign',
+                brand: 'Viral Reach Creator Brand',
+                category: 'Social Media Ad',
+                badge: '✦ Static Ad',
+                type: 'image',
+                src: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                description: 'A high-impact social media creative campaign designed to capture attention and boost brand engagement.'
+            }
+        };
+
+        // Modal Elements
+        const projectModal = document.getElementById('projectModal');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+        const modalMedia = document.getElementById('modalMedia');
+        const modalCategory = document.getElementById('modalCategory');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalType = document.getElementById('modalType');
+
+        function openProjectModal(projectId) {
+            const project = adProjectsData[projectId];
+            if (!project) return;
+
+            modalCategory.textContent = project.category;
+            modalTitle.textContent = project.title;
+            modalDescription.textContent = project.description;
+            modalType.textContent = project.type === 'video' ? 'Video Ad Creative' : 'Digital Graphic';
+
+            if (project.type === 'video') {
+                modalMedia.innerHTML = `
+                    <video src="${project.src}" controls autoplay playsinline style="width: 100%; max-height: 520px; object-fit: contain; background: #000;"></video>
+                `;
+            } else {
+                modalMedia.innerHTML = `
+                    <img src="${project.src}" alt="${project.title}" style="width: 100%; max-height: 520px; object-fit: contain;">
+                `;
+            }
+
+            projectModal.classList.add('is-active');
+            projectModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProjectModal() {
+            projectModal.classList.remove('is-active');
+            projectModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            modalMedia.innerHTML = '';
+        }
+
+        modalCloseBtn.addEventListener('click', closeProjectModal);
+        projectModal.addEventListener('click', (e) => {
+            if (e.target === projectModal) {
+                closeProjectModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && projectModal.classList.contains('is-active')) {
+                closeProjectModal();
+            }
+        });
+
+        // =========================================================
+        // DYNAMIC INFINITE ADS TIMELINE GENERATOR
+        // =========================================================
+        function renderAdsTimeline() {
+            const track = document.getElementById('adsTimelineTrack');
+            if (!track) return;
+
+            track.innerHTML = '';
+
+            const group1 = document.createElement('div');
+            group1.className = 'timeline-track-group';
+
+            const projectKeys = Object.keys(adProjectsData);
+
+            projectKeys.forEach(pId => {
+                const p = adProjectsData[pId];
+                const card = document.createElement('div');
+                card.className = 'timeline-ad-card';
+                card.setAttribute('data-project-id', pId);
+                card.setAttribute('tabindex', '0');
+
+                const mediaHtml = p.type === 'video'
+                    ? `<video src="${p.src}" muted loop playsinline preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause()"></video>`
+                    : `<img src="${p.src}" alt="${p.title}" loading="lazy">`;
+
+                card.innerHTML = `
+                    <div class="timeline-media-wrapper">
+                        ${mediaHtml}
+                        <div class="timeline-media-badge">${p.badge || '▶ Commercial'}</div>
+                    </div>
+                    <div class="timeline-card-content">
+                        <div class="timeline-category-tag">${p.category}</div>
+                        <h3 class="timeline-card-title">${p.title}</h3>
+                        <div class="timeline-card-brand">${p.brand || 'PIYUSHH Showcase'}</div>
+                        <div class="timeline-card-action">
+                            <span>View Project</span>
+                            <span class="action-arrow">↗</span>
+                        </div>
+                    </div>
+                `;
+                group1.appendChild(card);
+            });
+
+            // Clone for mathematically seamless infinite scroll loop
+            const group2 = group1.cloneNode(true);
+            group2.setAttribute('aria-hidden', 'true');
+
+            track.appendChild(group1);
+            track.appendChild(group2);
+
+            // Dynamically compute speed based on project count (smooth ~50px/sec)
+            const totalCards = projectKeys.length;
+            const estimatedGroupWidth = totalCards * 418;
+            const durationSec = Math.max(24, Math.round(estimatedGroupWidth / 55));
+            track.style.setProperty('--timeline-duration', durationSec + 's');
+
+            // Setup hover video preview play/pause and click opening
+            track.querySelectorAll('.timeline-ad-card').forEach(card => {
+                const vid = card.querySelector('video');
+                if (vid) {
+                    card.addEventListener('mouseenter', () => {
+                        vid.play().catch(() => {});
+                    });
+                    card.addEventListener('mouseleave', () => {
+                        vid.pause();
+                    });
+                }
+
+                card.addEventListener('click', () => {
+                    const pId = card.getAttribute('data-project-id');
+                    openProjectModal(pId);
+                });
+            });
+        }
+
+        // Touch & Mouse Dragging / Swiping Support for Timeline
+        (function setupTimelineInteractions() {
+            const viewport = document.getElementById('adsTimelineViewport');
+            const track = document.getElementById('adsTimelineTrack');
+            const toggleBtn = document.getElementById('toggleTimelinePauseBtn');
+            const pauseIcon = document.getElementById('timelinePauseIcon');
+            const pauseText = document.getElementById('timelinePauseText');
+
+            if (!viewport || !track) return;
+
+            // Manual Pause/Resume Toggle
+            let isManuallyPaused = false;
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    isManuallyPaused = !isManuallyPaused;
+                    if (isManuallyPaused) {
+                        track.classList.add('is-paused');
+                        pauseIcon.textContent = '▶';
+                        pauseText.textContent = 'Resume Timeline';
+                    } else {
+                        track.classList.remove('is-paused');
+                        pauseIcon.textContent = '⏸';
+                        pauseText.textContent = 'Pause Timeline';
+                    }
+                });
+            }
+
+            // Pointer Drag & Swipe Interaction
+            let isPointerDown = false;
+            let startX = 0;
+
+            viewport.addEventListener('pointerdown', (e) => {
+                if (e.target.closest('button')) return;
+                isPointerDown = true;
+                startX = e.clientX;
+                track.classList.add('is-paused');
+            });
+
+            window.addEventListener('pointermove', (e) => {
+                if (!isPointerDown) return;
+                const diff = e.clientX - startX;
+                if (Math.abs(diff) > 8) {
+                    e.preventDefault();
+                }
+            });
+
+            window.addEventListener('pointerup', (e) => {
+                if (!isPointerDown) return;
+                isPointerDown = false;
+                if (!isManuallyPaused) {
+                    track.classList.remove('is-paused');
+                }
+            });
+        })();
+
+        // =========================================================
+        // DYNAMIC CATALOG GRID GENERATOR & CATEGORY FILTERING
+        // =========================================================
+        function renderCatalogGrid(activeFilter = 'all') {
+            const container = document.getElementById('projectsContainer');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            const filterMap = {
+                'all': () => true,
+                'product-ad': p => p.category.toLowerCase().includes('product') || p.category.toLowerCase().includes('commercial'),
+                'video-ad': p => p.type === 'video',
+                'social-ad': p => p.category.toLowerCase().includes('social'),
+                'web-design': p => p.category.toLowerCase().includes('web')
+            };
+
+            const isMatch = filterMap[activeFilter] || filterMap['all'];
+
+            Object.entries(adProjectsData).forEach(([pId, p]) => {
+                if (!isMatch(p)) return;
+
+                const card = document.createElement('div');
+                card.className = 'premium-card project-card portfolio-item';
+                card.setAttribute('data-category', activeFilter);
+                card.setAttribute('data-project-id', pId);
+
+                const mediaHtml = p.type === 'video'
+                    ? `<div class="project-media-wrapper project-video-wrapper">
+                           <video class="project-video" src="${p.src}" muted loop playsinline preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause()"></video>
+                           <div class="media-badge video-play-badge">${p.badge || '▶ Video Ad'}</div>
+                       </div>`
+                    : `<div class="project-media-wrapper project-image-wrapper">
+                           <img src="${p.src}" alt="${p.title}" class="project-image" loading="lazy">
+                           <div class="media-badge video-play-badge">${p.badge || '✦ Design'}</div>
+                       </div>`;
+
+                card.innerHTML = `
+                    ${mediaHtml}
+                    <div class="project-content">
+                        <div class="project-category">${p.category}</div>
+                        <div class="project-title">${p.title}</div>
+                        <div class="project-desc card-desc">${p.description}</div>
+                        <a href="javascript:void(0)" class="card-link open-project-modal" data-project-id="${pId}">
+                            View Project <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </a>
+                    </div>
+                `;
+
+                card.style.cursor = 'pointer';
+                card.addEventListener('click', () => {
+                    openProjectModal(pId);
+                });
+
+                container.appendChild(card);
+            });
+        }
+
+        // Initialize Dynamic Timeline and Catalog
+        renderAdsTimeline();
+        renderCatalogGrid('all');
+
+        // Category Filter Buttons Event Setup
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+                renderCatalogGrid(filterValue);
+            });
+        });
+    </script>
+</body>
+</html>

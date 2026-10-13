@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Work With Piyushh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --electric-blue: #3B82F6;
+            --electric-blue-hover: #2563EB;
+            --electric-blue-glow: rgba(59, 130, 246, 0.30);
+            --orange: #3B82F6;
+            --text-light: #e0e0e0;
+            --text-dark: #888888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Ambient Background */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 70% 50%, rgba(59, 130, 246, 0.08) 0%, rgba(10, 10, 10, 1) 60%);
+            z-index: -2;
+        }
+
+        /* --- Navbar --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 60px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .logo span {
+            color: white;
+            background: linear-gradient(to right, #ffffff 20%, var(--electric-blue) 50%, #ffffff 80%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmerText 4s linear infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            background: rgba(15, 15, 15, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 18px 50px;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-links a {
+            color: #d1d1d1;
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--electric-blue);
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: white;
+        }
+
+        .btn-talk {
+            background: var(--electric-blue);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .btn-talk:hover {
+            background: var(--electric-blue-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        /* --- Hero Section --- */
+        .about-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 100vh;
+            padding: 0 60px;
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .hero-text-content {
+            flex: 1;
+            max-width: 800px;
+            padding-top: 80px; /* Offset for navbar */
+            opacity: 0;
+            transform: translateX(-40px);
+            animation: slideInLeft 1.2s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            font-size: 6.5rem;
+            line-height: 0.95;
+            letter-spacing: -3px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            color: white;
+        }
+        
+        .hero-title .orange-text,
+        .hero-title .blue-text {
+            color: var(--electric-blue);
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            max-width: 500px;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 0.6s;
+        }
+
+        .hero-subdescription {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: var(--text-dark);
+            margin-bottom: 40px;
+            max-width: 500px;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 0.8s;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 1s;
+        }
+
+        .btn-primary, .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: white;
+            color: black;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            background: var(--electric-blue);
+            color: white;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.35);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-4px);
+            border-color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .btn-primary svg, .btn-secondary svg {
+            transition: transform 0.3s ease;
+        }
+        
+        .btn-primary:hover svg, .btn-secondary:hover svg {
+            transform: translateX(5px);
+        }
+
+        .portrait-container {
+            position: absolute;
+            right: 5%;
+            bottom: 0;
+            height: 90vh;
+            width: 45vw;
+            max-width: 700px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: slideInUp 1.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards 0.3s;
+            z-index: 1;
+        }
+
+        .portrait-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 15%; /* Keep face visible and positioned nicely */
+            mask-image: linear-gradient(to top, transparent 0%, black 15%, black 100%);
+            -webkit-mask-image: linear-gradient(to top, transparent 0%, black 15%, black 100%);
+        }
+
+        /* --- Footer Details overlay --- */
+        .bottom-details {
+            position: absolute;
+            bottom: 40px;
+            left: 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 1.2s;
+            z-index: 10;
+        }
+        
+        .creator-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: white;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .instagram-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        
+        .instagram-link:hover {
+            color: var(--electric-blue);
+        }
+
+        @keyframes shimmerText {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes slideInLeft {
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* --- Profile Section --- */
+        .profile-section {
+            padding: 100px 20px 140px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--bg-dark);
+            position: relative;
+            z-index: 20;
+        }
+
+        .profile-card {
+            background: #121212;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 60px 50px;
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            transition: box-shadow 0.4s, transform 0.4s, border-color 0.4s, opacity 0.8s;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .profile-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .profile-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        }
+
+        .profile-desc {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: white;
+            line-height: 1.6;
+            font-style: italic;
+            margin-bottom: 35px;
+        }
+
+        .profile-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--electric-blue);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .profile-role {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+        }
+
+        .profile-card .instagram-link {
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: inline-flex;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .profile-card .instagram-link:hover {
+            background: rgba(59, 130, 246, 0.12);
+            border-color: rgba(59, 130, 246, 0.35);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .profile-card.visible .reveal-item {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .profile-card.visible .reveal-item:nth-child(1) { transition-delay: 0.1s; }
+        .profile-card.visible .reveal-item:nth-child(2) { transition-delay: 0.2s; }
+        .profile-card.visible .reveal-item:nth-child(3) { transition-delay: 0.3s; }
+        .profile-card.visible .reveal-item:nth-child(4) { transition-delay: 0.4s; }
+
+        /* Responsiveness */
+        @media (max-width: 1200px) {
+            .hero-title { font-size: 5rem; }
+            .portrait-container { right: 0; width: 50vw; }
+        }
+
+        @media (max-width: 900px) {
+            .about-hero {
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+                padding: 100px 30px 40px 30px;
+            }
+            .hero-text-content {
+                transform: translateY(20px);
+                animation-name: slideInUp;
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+                z-index: 10;
+            }
+            .hero-title {
+                font-size: 3.5rem;
+                margin-bottom: 20px;
+            }
+            .cta-group {
+                justify-content: center;
+                flex-direction: column;
+                width: 100%;
+                gap: 15px;
+            }
+            .portrait-container {
+                position: relative;
+                width: 100%;
+                height: 50vh;
+                margin-top: 40px;
+                right: auto;
+                bottom: auto;
+            }
+            .portrait-image {
+                object-position: center 10%;
+                mask-image: linear-gradient(to top, transparent 0%, black 20%, black 100%);
+                -webkit-mask-image: linear-gradient(to top, transparent 0%, black 20%, black 100%);
+            }
+            nav {
+                padding: 20px 30px;
+            }
+            .nav-links {
+                display: none; /* simple mobile nav hide for now */
+            }
+            .bottom-details {
+                position: relative;
+                left: auto;
+                bottom: auto;
+                align-items: center;
+                margin-top: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .profile-section {
+                padding: 60px 20px 80px 20px;
+            }
+            .profile-card {
+                padding: 40px 25px;
+            }
+            .profile-desc {
+                font-size: 1.3rem;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-delay: -1ms !important;
+                animation-duration: 1ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0s !important;
+                transition-delay: 0s !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg"></div>
+
+    <nav>
+        <div class="logo">
+            <span>Work With Piyushh</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html" class="active">About</a>
+            <a href="services.html">Services</a>
+            <a href="pricing.html">Pricing</a>
+            <a href="projects.html">Projects</a>
+            <a href="hire-me.html">Contact</a>
+        </div>
+        <a href="hire-me.html" class="btn-talk" style="text-decoration: none;">Hire Me</a>
+    </nav>
+
+    <section class="about-hero">
+        
+        <div class="hero-text-content">
+            <h1 class="hero-title">
+                Creative<br>
+                Mind.<br>
+                <span class="orange-text">Digital</span><br>
+                Vision.
+            </h1>
+            <p class="hero-description">Hey, I'm Piyushh — a digital creator passionate about creativity, design, and technology.</p>
+            <p class="hero-subdescription">Turning ideas into meaningful digital experiences.</p>
+            
+            <div class="cta-group">
+                <a href="index.html" class="btn-primary">
+                    Explore My Work 
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </a>
+                <a href="hire-me.html" class="btn-secondary">
+                    Get In Touch
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </a>
+            </div>
+        </div>
+
+        <div class="portrait-container">
+            <img src="piyushh_portrait.jpg" alt="Piyushh Portrait" class="portrait-image">
+        </div>
+
+
+    </section>
+
+    <section class="profile-section">
+        <div class="profile-card" id="profileCard">
+            <div class="profile-desc reveal-item">"Turning ideas into meaningful digital experiences through creativity, design, and technology."</div>
+            <div class="profile-name reveal-item">PIYUSHH</div>
+            <div class="profile-role reveal-item">Freelancer & Digital Creator</div>
+        </div>
+    </section>
+
+    <script>
+        // Intersection Observer for the profile card scroll animation
+        document.addEventListener("DOMContentLoaded", () => {
+            const card = document.getElementById("profileCard");
+            if (card) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("visible");
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.2 });
+                observer.observe(card);
+            }
+        });
+    </script>
+</body>
+</html>

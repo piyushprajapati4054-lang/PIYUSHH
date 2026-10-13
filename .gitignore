@@ -1,0 +1,16 @@
+# Database and dynamic uploads (local backend only)
+inquiries.db
+inquiries.db-wal
+inquiries.db-shm
+uploads/
+
+# Python & Environment
+__pycache__/
+*.pyc
+*.log
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

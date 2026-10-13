@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing & Packages — Work With Piyushh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0B0B0D;
+            --surface-card: #121217;
+            --surface-hover: #191921;
+            --accent-lime: #B6FF6A;
+            --accent-lime-glow: rgba(182, 255, 106, 0.25);
+            --electric-blue: #3B82F6;
+            --electric-blue-hover: #2563EB;
+            --electric-blue-glow: rgba(59, 130, 246, 0.30);
+            --orange: #3B82F6;
+            --orange-glow: rgba(59, 130, 246, 0.30);
+            --text-primary: #FFFFFF;
+            --text-secondary: #A1A1AA;
+            --text-muted: #71717A;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-popular: rgba(182, 255, 106, 0.45);
+            --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Ambient Glow & Background Grid */
+        .ambient-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 85% 15%, rgba(182, 255, 106, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 15% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, #0B0B0D 0%, #070709 100%);
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 70px 70px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- Navbar --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 28px 60px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-brand span {
+            color: var(--accent-lime);
+            font-weight: 800;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 36px;
+            background: rgba(18, 18, 23, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 14px 40px;
+            border-radius: 100px;
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.25s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #ffffff;
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 2px;
+            background: var(--accent-lime);
+            border-radius: 2px;
+        }
+
+        .btn-talk {
+            background: transparent;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 12px 28px;
+            border-radius: 100px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s var(--ease-premium);
+        }
+
+        .btn-talk:hover {
+            border-color: var(--accent-lime);
+            background: rgba(182, 255, 106, 0.08);
+            transform: translateY(-2px);
+        }
+
+        /* --- Header / Hero --- */
+        .pricing-hero {
+            padding: 160px 20px 50px 20px;
+            text-align: center;
+            max-width: 960px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(182, 255, 106, 0.08);
+            border: 1px solid rgba(182, 255, 106, 0.25);
+            padding: 8px 18px;
+            border-radius: 100px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--accent-lime);
+            margin-bottom: 24px;
+        }
+
+        .pulse-dot {
+            width: 7px;
+            height: 7px;
+            background-color: var(--accent-lime);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-lime);
+            animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .hero-headline {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            line-height: 1.15;
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: -1px;
+            margin-bottom: 22px;
+        }
+
+        .hero-headline .lime-accent {
+            color: var(--accent-lime);
+            font-style: italic;
+        }
+
+        .hero-description {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+            line-height: 1.7;
+            max-width: 720px;
+            margin: 0 auto 32px auto;
+        }
+
+        /* Disclaimer Pill */
+        .pricing-notice-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .pricing-notice-box .notice-icon {
+            color: var(--accent-lime);
+            font-weight: bold;
+        }
+
+        /* Filter Switcher */
+        .category-filter-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+
+        .filter-pill {
+            background: rgba(18, 18, 23, 0.8);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            padding: 12px 26px;
+            border-radius: 100px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .filter-pill:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .filter-pill.active {
+            background: var(--accent-lime);
+            border-color: var(--accent-lime);
+            color: #0B0B0D;
+            box-shadow: 0 8px 25px rgba(182, 255, 106, 0.25);
+        }
+
+        /* --- Sections Container --- */
+        .pricing-content-wrap {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 24px 100px 24px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .category-group {
+            margin-bottom: 80px;
+            scroll-margin-top: 120px;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .category-group.hidden {
+            display: none;
+        }
+
+        .category-header {
+            margin-bottom: 32px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 18px;
+        }
+
+        .category-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: #ffffff;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .category-title span {
+            color: var(--accent-lime);
+        }
+
+        .category-tagline {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* --- Pricing Grid (3 Cards per Category) --- */
+        .cards-3col-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            align-items: stretch;
+        }
+
+        .pricing-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 24px;
+            padding: 40px 32px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: all 0.35s var(--ease-premium);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.16);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Popular Card Highlight */
+        .pricing-card.is-popular {
+            border-color: var(--border-popular);
+            background: linear-gradient(180deg, rgba(25, 25, 33, 0.95) 0%, rgba(18, 18, 23, 0.98) 100%);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6), 0 0 40px rgba(182, 255, 106, 0.08);
+            transform: translateY(-4px);
+        }
+
+        .pricing-card.is-popular:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 50px rgba(182, 255, 106, 0.15);
+        }
+
+        .badge-popular {
+            position: absolute;
+            top: -14px;
+            right: 28px;
+            background: var(--accent-lime);
+            color: #0B0B0D;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            padding: 5px 14px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(182, 255, 106, 0.4);
+        }
+
+        .plan-name {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.3px;
+        }
+
+        .plan-desc {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            min-height: 48px;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        /* Price Tag */
+        .plan-price-wrap {
+            margin-bottom: 28px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .price-starting-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .price-amount {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1;
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: -1.5px;
+        }
+
+        .price-amount .currency {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--accent-lime);
+        }
+
+        .price-amount .currency-code {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 0;
+            margin-left: 6px;
+        }
+
+        /* Included Features List */
+        .plan-features-list {
+            list-style: none;
+            margin-bottom: 36px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .feature-icon {
+            color: var(--accent-lime);
+            font-size: 1rem;
+            line-height: 1.2;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .feature-item strong {
+            color: #ffffff;
+        }
+
+        /* Card CTA Buttons */
+        .btn-plan-action {
+            width: 100%;
+            padding: 16px 24px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s var(--ease-premium);
+            cursor: pointer;
+        }
+
+        .btn-plan-default {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+        }
+
+        .btn-plan-default:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-plan-popular {
+            background: var(--accent-lime);
+            border: 1px solid var(--accent-lime);
+            color: #0B0B0D;
+            box-shadow: 0 10px 25px rgba(182, 255, 106, 0.3);
+        }
+
+        .btn-plan-popular:hover {
+            background: #c5ff85;
+            box-shadow: 0 15px 35px rgba(182, 255, 106, 0.45);
+            transform: translateY(-2px);
+        }
+
+        .btn-plan-action .arrow {
+            display: inline-block;
+            transition: transform 0.25s ease;
+        }
+
+        .btn-plan-action:hover .arrow {
+            transform: translateX(4px);
+        }
+
+        /* --- Bottom Enterprise / Custom Quote Banner --- */
+        .custom-quote-banner {
+            background: linear-gradient(135deg, rgba(20, 20, 26, 0.95), rgba(15, 15, 18, 0.98));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+            padding: 56px 50px;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .custom-quote-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--accent-lime), var(--electric-blue));
+        }
+
+        .banner-text h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .banner-text p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            max-width: 620px;
+            line-height: 1.6;
+        }
+
+        .banner-buttons {
+            display: flex;
+            gap: 16px;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+
+        .btn-custom-quote {
+            background: var(--accent-lime);
+            color: #0B0B0D;
+            font-weight: 700;
+            padding: 16px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(182, 255, 106, 0.25);
+        }
+
+        .btn-custom-quote:hover {
+            background: #c5ff85;
+            transform: translateY(-2px);
+        }
+
+        .btn-discuss-project {
+            background: transparent;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            font-weight: 600;
+            padding: 16px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-discuss-project:hover {
+            border-color: rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+        }
+
+        /* --- Pricing FAQ Section --- */
+        .pricing-faq-section {
+            max-width: 900px;
+            margin: 80px auto 0 auto;
+        }
+
+        .faq-headline {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: #ffffff;
+            margin-bottom: 36px;
+        }
+
+        .faq-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .faq-item {
+            background: rgba(18, 18, 23, 0.6);
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            padding: 24px 28px;
+            transition: border-color 0.25s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .faq-question {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .faq-answer {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 60px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 20;
+        }
+
+        footer .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        /* --- Responsiveness --- */
+        @media (max-width: 1024px) {
+            .hero-headline { font-size: 3.2rem; }
+            .cards-3col-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .custom-quote-banner {
+                flex-direction: column;
+                text-align: center;
+                padding: 40px 30px;
+            }
+            .banner-buttons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 22px 24px; }
+            .nav-links { display: none; }
+            .pricing-hero { padding: 130px 20px 40px 20px; }
+            .hero-headline { font-size: 2.5rem; }
+            .hero-description { font-size: 1rem; }
+            .cards-3col-grid {
+                grid-template-columns: 1fr;
+            }
+            .pricing-card {
+                padding: 34px 24px;
+            }
+            .category-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+            .custom-quote-banner {
+                padding: 32px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-glow"></div>
+    <div class="grid-overlay"></div>
+
+    <!-- Navigation Header -->
+    <nav>
+        <a href="index.html" class="nav-brand">
+            PIYUSHH <span>/ CREATIVE</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="pricing.html" class="active">Pricing</a>
+            <a href="projects.html">Projects</a>
+            <a href="hire-me.html">Contact</a>
+        </div>
+
+        <a href="hire-me.html" class="btn-talk">Hire Me</a>
+    </nav>
+
+    <!-- Pricing Hero -->
+    <header class="pricing-hero">
+        <div class="hero-badge">
+            <span class="pulse-dot"></span>
+            TRANSPARENT &amp; VALUE-DRIVEN PRICING
+        </div>
+
+        <h1 class="hero-headline">
+            Investment Packages Tailored for <span class="lime-accent">High Growth.</span>
+        </h1>
+
+        <p class="hero-description">
+            Clear, upfront pricing with no hidden surprises. From high-converting commercial advertisements to full-stack web platforms, choose the package that fits your stage.
+        </p>
+
+        <!-- Prominent USD Note & Disclaimer -->
+        <div class="pricing-notice-box">
+            <span class="notice-icon">&#9432;</span>
+            <span>All prices displayed in <strong>US Dollars ($)</strong>. Final pricing may vary depending on project requirements and complexity.</span>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="category-filter-nav">
+            <button class="filter-pill active" data-target="all">All Packages</button>
+            <button class="filter-pill" data-target="web-dev">Website Development</button>
+            <button class="filter-pill" data-target="video-edit">Video Editing</button>
+            <button class="filter-pill" data-target="cinematic-ads">Cinematic Ads</button>
+        </div>
+    </header>
+
+    <!-- Main Pricing Content -->
+    <main class="pricing-content-wrap">
+
+        <!-- ==============================================
+             CATEGORY 1: WEBSITE DEVELOPMENT
+             ============================================== -->
+        <section class="category-group" id="web-dev">
+            <div class="category-header">
+                <div>
+                    <h2 class="category-title">Website <span>Development</span></h2>
+                    <p class="category-tagline">Fast, modern, and high-converting web architecture tailored to your brand.</p>
+                </div>
+            </div>
+
+            <div class="cards-3col-grid">
+                <!-- Plan 1: Basic Website -->
+                <div class="pricing-card">
+                    <h3 class="plan-name">Basic Website</h3>
+                    <p class="plan-desc">Clean, responsive personal portfolio or landing page for establishing online presence.</p>
+                    
+                    <div class="plan-price-wrap">
+                        <div class="price-starting-label">Starting at</div>
+                        <div class="price-amount"><span class="currency">$</span>99 <span class="currency-code">USD</span></div>
+                    </div>
+
+                    <ul class="plan-features-list">
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span><strong>1 to 3 Pages</strong> (Home, About, Contact)</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>100% Mobile &amp; Tablet Responsive</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Core SEO &amp; Fast Performance Setup</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Functional Contact Form Integration</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>1 Week Estimated Delivery</span></li>
+                    </ul>
+
+                    <a href="hire-me.html?service=Website%20Design&plan=Basic%20Website&price=%2499" class="btn-plan-action btn-plan-default">
+                        Get Started <span class="arrow">&rarr;</span>
+                    </a>
+                </div>
+
+                <!-- Plan 2: Professional Website (POPULAR) -->
+                <div class="pricing-card is-popular">
+                    <div class="badge-popular">Popular</div>
+                    <h3 class="plan-name">Professional Website</h3>
+                    <p class="plan-desc">Full-featured custom web platform engineered for creator brands, businesses, and conversions.</p>
+                    
+                    <div class="plan-price-wrap">
+                        <div class="price-starting-label">Starting at</div>
+                        <div class="price-amount"><span class="currency">$</span>149 <span class="currency-code">USD</span></div>
+                    </div>
+
+                    <ul class="plan-features-list">
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span><strong>Up to 5 to 7 Bespoke Pages</strong></span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Smooth Animations &amp; Interactive UI</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Custom Branding &amp; Dark Mode Design</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Lead Capture Form &amp; Database Storage</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Mobile-First Performance &amp; Analytics</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>2 Weeks Estimated Delivery</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Priority 30-Day Launch Support</span></li>
+                    </ul>
+
+                    <a href="hire-me.html?service=Website%20Design&plan=Professional%20Website&price=%24149" class="btn-plan-action btn-plan-popular">
+                        Choose Plan <span class="arrow">&rarr;</span>
+                    </a>
+                </div>
+
+                <!-- Plan 3: Premium Website -->
+                <div class="pricing-card">
+                    <h3 class="plan-name">Premium Website</h3>
+                    <p class="plan-desc">Comprehensive flagship digital experience with custom animations and full backend logic.</p>
+                    
+                    <div class="plan-price-wrap">
+                        <div class="price-starting-label">Starting at</div>
+                        <div class="price-amount"><span class="currency">$</span>249 <span class="currency-code">USD</span></div>
+                    </div>
+
+                    <ul class="plan-features-list">
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span><strong>Full Multi-Page Architecture</strong></span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Custom Video / Scroll Dynamics &amp; Canvas</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Backend Database &amp; Email Dispatch API</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>CMS / Blog or E-commerce Integration</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Speed &amp; SEO Audit (95+ Lighthouse)</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>3 to 4 Weeks Delivery</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>60-Day Full Maintenance &amp; Updates</span></li>
+                    </ul>
+
+                    <a href="hire-me.html?service=Website%20Design&plan=Premium%20Website&price=%24249" class="btn-plan-action btn-plan-default">
+                        Get Started <span class="arrow">&rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==============================================
+             CATEGORY 2: VIDEO EDITING
+             ============================================== -->
+        <section class="category-group" id="video-edit">
+            <div class="category-header">
+                <div>
+                    <h2 class="category-title">Video <span>Editing</span></h2>
+                    <p class="category-tagline">High-retention storytelling, kinetic captions, and cinematic visual pacing.</p>
+                </div>
+            </div>
+
+            <div class="cards-3col-grid">
+                <!-- Plan 1: Basic Edit -->
+                <div class="pricing-card">
+                    <h3 class="plan-name">Basic Edit</h3>
+                    <p class="plan-desc">Punchy, high-energy edits optimized for short-form social feeds (Reels, TikTok, Shorts).</p>
+                    
+                    <div class="plan-price-wrap">
+                        <div class="price-starting-label">Starting at</div>
+                        <div class="price-amount"><span class="currency">$</span>15 <span class="currency-code">USD</span></div>
+                    </div>
+
+                    <ul class="plan-features-list">
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span><strong>Up to 60 Seconds Duration</strong></span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Dynamic Captions &amp; Text Pop-ups</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Trending Audio Sync &amp; Basic SFX</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Fast Cuts &amp; Visual Pacing</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>48-Hour Rapid Delivery</span></li>
+                    </ul>
+
+                    <a href="hire-me.html?service=Video%20Editing&plan=Basic%20Edit&price=%2415" class="btn-plan-action btn-plan-default">
+                        Get Started <span class="arrow">&rarr;</span>
+                    </a>
+                </div>
+
+                <!-- Plan 2: Professional Edit (POPULAR) -->
+                <div class="pricing-card is-popular">
+                    <div class="badge-popular">Popular</div>
+                    <h3 class="plan-name">Professional Edit</h3>
+                    <p class="plan-desc">High-retention YouTube or social video crafted to keep viewers engaged from second one.</p>
+                    
+                    <div class="plan-price-wrap">
+                        <div class="price-starting-label">Starting at</div>
+                        <div class="price-amount"><span class="currency">$</span>35 <span class="currency-code">USD</span></div>
+                    </div>
+
+                    <ul class="plan-features-list">
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span><strong>Up to 5 to 8 Minutes Duration</strong></span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Advanced Motion Graphics &amp; Visual FX</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Multi-Track Sound Design &amp; Custom SFX</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>B-Roll Insertion, Zooms &amp; Motion Assets</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>High-CTR Thumbnail Design Included</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>3 to 4 Days Delivery</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>2 Revisions Included</span></li>
+                    </ul>
+
+                    <a href="hire-me.html?service=Video%20Editing&plan=Professional%20Edit&price=%2435" class="btn-plan-action btn-plan-popular">
+                        Choose Plan <span class="arrow">&rarr;</span>
+                    </a>
+                </div>
+
+                <!-- Plan 3: Premium Edit -->
+                <div class="pricing-card">
+                    <h3 class="plan-name">Premium Edit</h3>
+                    <p class="plan-desc">Long-form narrative, documentary style, podcast, or cinematic commercial project.</p>
+                    
+                    <div class="plan-price-wrap">
+                        <div class="price-starting-label">Starting at</div>
+                        <div class="price-amount"><span class="currency">$</span>75 <span class="currency-code">USD</span></div>
+                    </div>
+
+                    <ul class="plan-features-list">
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span><strong>Full Long-form or Complex Timeline</strong></span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Cinematic Color Grading (Rec.709 / Film)</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Narrative Pacing &amp; Custom Audio Mix</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Kinetic Typography &amp; 4K Master Render</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Full Project Source Files Included</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Priority Delivery &amp; Unlimited Revisions</span></li>
+                    </ul>
+
+                    <a href="hire-me.html?service=Video%20Editing&plan=Premium%20Edit&price=%2475" class="btn-plan-action btn-plan-default">
+                        Get Started <span class="arrow">&rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==============================================
+             CATEGORY 3: CINEMATIC ADVERTISEMENT CREATION
+             ============================================== -->
+        <section class="category-group" id="cinematic-ads">
+            <div class="category-header">
+                <div>
+                    <h2 class="category-title">Cinematic <span>Advertisement Creation</span></h2>
+                    <p class="category-tagline">Scroll-stopping commercial creatives engineered to convert and scale ad spend.</p>
+                </div>
+            </div>
+
+            <div class="cards-3col-grid">
+                <!-- Plan 1: Basic Ad -->
+                <div class="pricing-card">
+                    <h3 class="plan-name">Basic Ad</h3>
+                    <p class="plan-desc">Clean, direct-response promotional ad creative engineered for digital feeds and rapid testing.</p>
+                    
+                    <div class="plan-price-wrap">
+                        <div class="price-starting-label">Starting at</div>
+                        <div class="price-amount"><span class="currency">$</span>25 <span class="currency-code">USD</span></div>
+                    </div>
+
+                    <ul class="plan-features-list">
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span><strong>1 High-Impact Creative (15 to 30s)</strong></span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Mobile Feed Optimized (9:16 or 1:1)</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Hook-First Visual Structure</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Royalty-Free Audio &amp; SFX Sync</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>2 Iteration Revisions</span></li>
+                    </ul>
+
+                    <a href="hire-me.html?service=Ad%20Creative&plan=Basic%20Ad&price=%2425" class="btn-plan-action btn-plan-default">
+                        Get Started <span class="arrow">&rarr;</span>
+                    </a>
+                </div>
+
+                <!-- Plan 2: Cinematic Ad (POPULAR) -->
+                <div class="pricing-card is-popular">
+                    <div class="badge-popular">Popular</div>
+                    <h3 class="plan-name">Cinematic Ad</h3>
+                    <p class="plan-desc">High-converting commercial creative built specifically for Meta, TikTok &amp; YouTube Ads.</p>
+                    
+                    <div class="plan-price-wrap">
+                        <div class="price-starting-label">Starting at</div>
+                        <div class="price-amount"><span class="currency">$</span>59 <span class="currency-code">USD</span></div>
+                    </div>
+
+                    <ul class="plan-features-list">
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span><strong>2 Creative Variations (A/B Hook Cuts)</strong></span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Dynamic Motion &amp; Product Angles</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Custom Script &amp; High-CTR Hook Strategy</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Commercial Sound Design &amp; Voiceover Sync</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Conversion-Focused Call-to-Action</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>3 Iteration Revisions</span></li>
+                    </ul>
+
+                    <a href="hire-me.html?service=Ad%20Creative&plan=Cinematic%20Ad&price=%2459" class="btn-plan-action btn-plan-popular">
+                        Choose Plan <span class="arrow">&rarr;</span>
+                    </a>
+                </div>
+
+                <!-- Plan 3: Premium Ad -->
+                <div class="pricing-card">
+                    <h3 class="plan-name">Premium Ad</h3>
+                    <p class="plan-desc">Complete multi-asset commercial advertising campaign with cinematic production and full variations.</p>
+                    
+                    <div class="plan-price-wrap">
+                        <div class="price-starting-label">Starting at</div>
+                        <div class="price-amount"><span class="currency">$</span>99 <span class="currency-code">USD</span></div>
+                    </div>
+
+                    <ul class="plan-features-list">
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span><strong>4 Commercial Cuts (Hooks, Angles &amp; CTAs)</strong></span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Full 4K Ultra-HD Motion Graphics</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Creative Storyboard &amp; Ad Direction</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Multi-Platform Exports (9:16, 1:1, 16:9)</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>Full Commercial License &amp; Project Files</span></li>
+                        <li class="feature-item"><span class="feature-icon">&#10003;</span> <span>1-on-1 Creative Strategy Call</span></li>
+                    </ul>
+
+                    <a href="hire-me.html?service=Ad%20Creative&plan=Premium%20Ad&price=%2499" class="btn-plan-action btn-plan-default">
+                        Get Started <span class="arrow">&rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom Custom Quote & Discuss Banner -->
+        <div class="custom-quote-banner">
+            <div class="banner-text">
+                <h3>Need a Custom Scope or Monthly Retainer?</h3>
+                <p>Have an ambitious brand campaign, ongoing video pipeline, or unique full-stack requirement? Let's discuss your deliverables and engineer a tailored plan.</p>
+            </div>
+            <div class="banner-buttons">
+                <a href="hire-me.html?service=Collaboration&plan=Custom%20Quote" class="btn-custom-quote">
+                    Custom Quote <span class="arrow">&rarr;</span>
+                </a>
+                <a href="hire-me.html" class="btn-discuss-project">
+                    Discuss Your Project
+                </a>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <section class="pricing-faq-section">
+            <h2 class="faq-headline">Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">Are the starting prices fixed or estimates?</div>
+                    <div class="faq-answer">These starting prices serve as clear benchmarks for standard project scopes. Final pricing may vary slightly based on project length, asset complexity, turnaround speed, and additional custom requests.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">What happens after I click "Choose Plan" or "Get Started"?</div>
+                    <div class="faq-answer">You'll be smoothly guided to the dedicated Hire Me project brief form with your chosen package preselected. Simply enter your contact details, timeline, and project notes to receive a direct response within 24 hours.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">How are payments processed?</div>
+                    <div class="faq-answer">All payments are billed in US Dollars ($) through secure international invoices via Stripe, PayPal, or Direct Bank Wire, typically with a milestone structure (50% upfront, 50% upon final delivery).</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">What if I need both video ads and a website?</div>
+                    <div class="faq-answer">You can easily bundle services for a discounted creator package! Simply select "Collaboration" or "Full Brand Identity" on the Hire Me page or mention it in your inquiry details.</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-brand">PIYUSHH</div>
+        <p>&copy; 2026 Work With Piyushh. Freelancer &amp; Web Developer. All rights reserved.</p>
+    </footer>
+
+    <!-- Category Filter Interaction Script -->
+    <script>
+        const filterPills = document.querySelectorAll('.filter-pill');
+        const categoryGroups = document.querySelectorAll('.category-group');
+
+        filterPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                filterPills.forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+
+                const target = pill.getAttribute('data-target');
+
+                categoryGroups.forEach(group => {
+                    if (target === 'all' || group.id === target) {
+                        group.classList.remove('hidden');
+                        group.style.display = 'block';
+                    } else {
+                        group.classList.add('hidden');
+                        group.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
