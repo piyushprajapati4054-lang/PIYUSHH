@@ -451,15 +451,88 @@
         .instagram-link {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            color: var(--text-dark);
+            gap: 9px;
+            padding: 8px 18px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
             text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), 
+                        background 0.3s ease, 
+                        border-color 0.3s ease, 
+                        box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
             font-size: 0.95rem;
-            transition: color 0.3s;
+            min-height: 40px;
+            box-sizing: border-box;
         }
-        
+
         .instagram-link:hover {
-            color: var(--electric-blue);
+            background: rgba(59, 130, 246, 0.12);
+            border-color: rgba(59, 130, 246, 0.45);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.22), 0 0 12px rgba(59, 130, 246, 0.15);
+            color: #ffffff;
+        }
+
+        .instagram-icon {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: var(--electric-blue);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        stroke 0.3s ease, 
+                        filter 0.3s ease;
+        }
+
+        .instagram-username {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            transition: color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .instagram-link:hover .instagram-username {
+            color: #ffffff;
+            transform: translateX(2px);
+        }
+
+        .instagram-link:hover .instagram-icon {
+            transform: scale(1.18) rotate(8deg);
+            stroke: #ffffff;
+            filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.7));
+        }
+
+        .instagram-link:active {
+            transform: scale(0.96) translateY(0);
+        }
+
+        footer {
+            padding: 60px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .footer-social-wrap {
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: center;
         }
 
         @keyframes shimmerText {
@@ -763,8 +836,34 @@
             <div class="profile-desc reveal-item">"Turning ideas into meaningful digital experiences through creativity, design, and technology."</div>
             <div class="profile-name reveal-item">PIYUSHH</div>
             <div class="profile-role reveal-item">Freelancer & Digital Creator</div>
+            <div class="profile-social reveal-item">
+                <a href="https://www.instagram.com/digitalcreator.29/" target="_blank" rel="noopener noreferrer" class="instagram-link" aria-label="Visit Instagram profile @digitalcreator.29">
+                    <svg class="instagram-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                    <span class="instagram-username">@digitalcreator.29</span>
+                </a>
+            </div>
         </div>
     </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-social-wrap">
+            <a href="https://www.instagram.com/digitalcreator.29/" target="_blank" rel="noopener noreferrer" class="instagram-link footer-instagram" aria-label="Visit Instagram profile @digitalcreator.29">
+                <svg class="instagram-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+                <span class="instagram-username">@digitalcreator.29</span>
+            </a>
+        </div>
+        <div class="footer-brand" style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #ffffff; font-weight: 600;">PIYUSHH</div>
+        <p>&copy; 2026 Work With Piyushh. All rights reserved.</p>
+    </footer>
 
     <script>
         // Intersection Observer for the profile card scroll animation

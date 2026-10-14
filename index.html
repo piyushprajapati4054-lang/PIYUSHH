@@ -559,51 +559,76 @@
             }
         }
         
-        /* --- Instagram Animations --- */
+        /* --- Instagram Link & Interactive Hover Animations --- */
         .instagram-link {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 9px;
+            padding: 8px 18px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
             text-decoration: none;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
-            animation-delay: 0.5s;
             cursor: pointer;
-            transition: transform 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), 
+                        background 0.3s ease, 
+                        border-color 0.3s ease, 
+                        box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            font-size: 0.95rem;
+            min-height: 40px;
+            box-sizing: border-box;
         }
-        
+
+        .instagram-link:hover {
+            background: rgba(59, 130, 246, 0.12);
+            border-color: rgba(59, 130, 246, 0.45);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.22), 0 0 12px rgba(59, 130, 246, 0.15);
+        }
+
         .instagram-icon {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             fill: none;
             stroke: var(--electric-blue);
             stroke-width: 2;
             stroke-linecap: round;
             stroke-linejoin: round;
-            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            animation: subtleFloat 3s ease-in-out infinite;
+            flex-shrink: 0;
+            transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        stroke 0.3s ease, 
+                        filter 0.3s ease;
         }
 
         .instagram-username {
             color: var(--text-light);
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: 500;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            letter-spacing: 0.3px;
+            transition: color 0.3s ease, transform 0.3s ease;
             display: inline-block;
         }
 
         .instagram-link:hover .instagram-username {
-            color: var(--electric-blue);
-            transform: translateY(-2px);
+            color: #ffffff;
+            transform: translateX(2px);
         }
 
         .instagram-link:hover .instagram-icon {
-            transform: scale(1.15) rotate(5deg);
+            transform: scale(1.18) rotate(8deg);
+            stroke: #ffffff;
+            filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.7));
         }
 
         .instagram-link:active {
-            transform: scale(0.95);
+            transform: scale(0.96) translateY(0);
+        }
+
+        .footer-social-wrap {
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: center;
         }
 
         @keyframes fadeInUp {
@@ -1627,7 +1652,7 @@
         .contact-direct-links {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 16px;
             color: var(--text-dark);
             font-size: 0.95rem;
             flex-wrap: wrap;
@@ -1635,6 +1660,9 @@
         }
 
         .direct-email-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             color: #ffffff;
             text-decoration: underline;
             transition: color 0.2s ease;
@@ -1644,6 +1672,11 @@
             color: var(--accent-lime);
         }
 
+        .direct-divider {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 1.1rem;
+        }
+
         @media (max-width: 768px) {
             .contact-cta-card {
                 padding: 35px 22px;
@@ -1651,21 +1684,32 @@
             .contact-title {
                 font-size: 2.4rem;
             }
+            .contact-direct-links {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .direct-divider {
+                display: none;
+            }
         }
         
         /* --- Actual Footer --- */
         .site-footer {
             position: relative;
             width: 100%;
-            height: 150px;
+            min-height: 140px;
+            padding: 40px 20px;
             background: #050505;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             color: var(--text-dark);
             font-size: 0.9rem;
             z-index: 20; 
             border-top: 1px solid rgba(255,255,255,0.05);
+            box-sizing: border-box;
+            gap: 14px;
         }
     </style>
 </head>
@@ -1931,13 +1975,35 @@
         </a>
         <div class="contact-direct-links">
             <span class="direct-label">Or reach out directly:</span>
-            <a href="mailto:contactwithpiyush.01@gmail.com" class="direct-email-link">contactwithpiyush.01@gmail.com</a>
+            <a href="mailto:contactwithpiyush.01@gmail.com" class="direct-email-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <span>contactwithpiyush.01@gmail.com</span>
+            </a>
+            <span class="direct-divider" aria-hidden="true">&bull;</span>
+            <a href="https://www.instagram.com/digitalcreator.29/" target="_blank" rel="noopener noreferrer" class="instagram-link" aria-label="Visit Instagram profile @digitalcreator.29">
+                <svg class="instagram-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+                <span class="instagram-username">@digitalcreator.29</span>
+            </a>
         </div>
     </div>
 </section>
 
 <!-- Add the footer at the very bottom of the document -->
 <footer class="site-footer">
+    <div class="footer-social-wrap">
+        <a href="https://www.instagram.com/digitalcreator.29/" target="_blank" rel="noopener noreferrer" class="instagram-link footer-instagram" aria-label="Visit Instagram profile @digitalcreator.29">
+            <svg class="instagram-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+            <span class="instagram-username">@digitalcreator.29</span>
+        </a>
+    </div>
     <p>&copy; 2026 Work With Piyushh. All rights reserved.</p>
 </footer>
 
