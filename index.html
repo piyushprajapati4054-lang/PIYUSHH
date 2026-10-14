@@ -9,7 +9,23 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
+    <!-- High-Performance Instant Navigation & Route Prerendering -->
+    <script type="speculationrules">
+    {
+      "prerender": [
+        {
+          "source": "list",
+          "urls": ["about.html", "services.html", "pricing.html", "hire-me.html", "projects.html"]
+        }
+      ]
+    }
+    </script>
+    
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
         :root {
             --electric-blue: #3B82F6;
             --electric-blue-hover: #2563EB;
@@ -2042,22 +2058,52 @@
         `frames/hero_video_frames_24fps/frame_${index.toString().padStart(4, '0')}.jpg`
     );
 
-    const preloadImages = () => {
-        for (let i = 1; i <= frameCount; i++) {
-            const img = new Image();
-            img.src = currentFrame(i);
-            img.onload = () => {
-                loadedImages++;
-                // Set initial canvas setup when first frame loads
-                if (i === 1) {
-                    resizeCanvas();
-                }
-            };
-            images.push(img);
-        }
-    };
+    const images = new Array(frameCount);
 
-    preloadImages();
+    function loadFrame(i, onLoaded) {
+        if (images[i - 1]) {
+            if (onLoaded && images[i - 1].complete) onLoaded(images[i - 1]);
+            return images[i - 1];
+        }
+        const img = new Image();
+        img.src = currentFrame(i);
+        img.onload = () => {
+            loadedImages++;
+            if (onLoaded) onLoaded(img);
+        };
+        images[i - 1] = img;
+        return img;
+    }
+
+    // Step 1: Immediately load Frame 1 for instant, crisp first paint
+    loadFrame(1, () => {
+        resizeCanvas();
+    });
+
+    // Step 2: Progressively buffer remaining frames in background idle time
+    // Keeps network 100% free for instant user clicks & navigation
+    let nextFrameToBuffer = 2;
+    function bufferRemainingFrames() {
+        if (nextFrameToBuffer > frameCount) return;
+        const batchEnd = Math.min(frameCount, nextFrameToBuffer + 8);
+        for (let i = nextFrameToBuffer; i <= batchEnd; i++) {
+            loadFrame(i);
+        }
+        nextFrameToBuffer = batchEnd + 1;
+        if (nextFrameToBuffer <= frameCount) {
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(bufferRemainingFrames, { timeout: 1000 });
+            } else {
+                setTimeout(bufferRemainingFrames, 120);
+            }
+        }
+    }
+
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(bufferRemainingFrames, { timeout: 600 });
+    } else {
+        setTimeout(bufferRemainingFrames, 100);
+    }
     window.addEventListener('resize', () => {
         resizeCanvas();
     }, { passive: true });
@@ -2109,69 +2155,81 @@
     }, { passive: true });
 
     // Adaptive focal drawing: preserves full portrait composition and hair headroom across viewports
-    const updateImage = index => {
-        const img = images[index - 1];
-        if (img && img.complete) {
-            const w = window.innerWidth;
-            const h = window.innerHeight;
-            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    function renderFrameToCanvas(img) {
+        if (!img || !img.complete || img.naturalWidth === 0) return;
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-            context.save();
-            context.setTransform(1, 0, 0, 1, 0, 0);
-            context.fillStyle = '#0c0c0c';
-            context.fillRect(0, 0, canvas.width, canvas.height);
-            context.scale(dpr, dpr);
+        context.save();
+        context.setTransform(1, 0, 0, 1, 0, 0);
+        context.fillStyle = '#0c0c0c';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.scale(dpr, dpr);
 
-            if (w <= 768) {
-                // Portrait / Mobile composition:
-                // Subject is centered around x = 470px (width ~700px, x: 80 to 860)
-                // Draw in top 65% of viewport with ample headroom (hair never clipped)
-                const targetRatio = w / (h * 0.65);
-                let sH = img.height;
-                let sW = sH * targetRatio;
-                if (sW > img.width) {
-                    sW = img.width;
-                    sH = sW / targetRatio;
-                }
-                let sX = 470 - (sW * 0.5);
-                if (sX < 60) sX = 60; // preserve blue atmospheric rim light
-                if (sX + sW > img.width) sX = img.width - sW;
-                let sY = 0; // head headroom preserved
-                
-                const drawH = h * 0.65;
-                context.drawImage(img, sX, sY, sW, sH, 0, 0, w, drawH);
-                
-                // Cinematic multi-stop dark gradient vignette
-                const grad = context.createLinearGradient(0, 0, 0, h);
-                grad.addColorStop(0, 'rgba(12, 12, 12, 0.45)');
-                grad.addColorStop(0.35, 'rgba(12, 12, 12, 0.15)');
-                grad.addColorStop(0.55, 'rgba(12, 12, 12, 0.7)');
-                grad.addColorStop(0.85, '#0c0c0c');
-                grad.addColorStop(1, '#0c0c0c');
-                context.fillStyle = grad;
-                context.fillRect(0, 0, w, h);
-            } else {
-                // Desktop / Tablet landscape composition:
-                const windowRatio = w / h;
-                const imgRatio = img.width / img.height;
-                let sW = img.width, sH = img.height, sX = 0, sY = 0;
-                if (windowRatio > imgRatio) {
-                    sH = img.width / windowRatio;
-                    sY = (img.height - sH) * 0.2; // keep headroom
-                } else {
-                    sW = img.height * windowRatio;
-                    sX = (img.width - sW) * 0.35; // keep subject on left-center
-                }
-                context.drawImage(img, sX, sY, sW, sH, 0, 0, w, h);
-                
-                // Subtle radial vignette to soften edges and boost text contrast
-                const dGrad = context.createRadialGradient(w * 0.5, h * 0.5, h * 0.3, w * 0.5, h * 0.5, w * 0.75);
-                dGrad.addColorStop(0, 'rgba(12, 12, 12, 0)');
-                dGrad.addColorStop(1, 'rgba(12, 12, 12, 0.55)');
-                context.fillStyle = dGrad;
-                context.fillRect(0, 0, w, h);
+        if (w <= 768) {
+            // Portrait / Mobile composition:
+            // Subject is centered around x = 470px (width ~700px, x: 80 to 860)
+            // Draw in top 65% of viewport with ample headroom (hair never clipped)
+            const targetRatio = w / (h * 0.65);
+            let sH = img.height;
+            let sW = sH * targetRatio;
+            if (sW > img.width) {
+                sW = img.width;
+                sH = sW / targetRatio;
             }
-            context.restore();
+            let sX = 470 - (sW * 0.5);
+            if (sX < 60) sX = 60; // preserve blue atmospheric rim light
+            if (sX + sW > img.width) sX = img.width - sW;
+            let sY = 0; // head headroom preserved
+            
+            const drawH = h * 0.65;
+            context.drawImage(img, sX, sY, sW, sH, 0, 0, w, drawH);
+            
+            // Cinematic multi-stop dark gradient vignette
+            const grad = context.createLinearGradient(0, 0, 0, h);
+            grad.addColorStop(0, 'rgba(12, 12, 12, 0.45)');
+            grad.addColorStop(0.35, 'rgba(12, 12, 12, 0.15)');
+            grad.addColorStop(0.55, 'rgba(12, 12, 12, 0.7)');
+            grad.addColorStop(0.85, '#0c0c0c');
+            grad.addColorStop(1, '#0c0c0c');
+            context.fillStyle = grad;
+            context.fillRect(0, 0, w, h);
+        } else {
+            // Desktop / Tablet landscape composition:
+            const windowRatio = w / h;
+            const imgRatio = img.width / img.height;
+            let sW = img.width, sH = img.height, sX = 0, sY = 0;
+            if (windowRatio > imgRatio) {
+                sH = img.width / windowRatio;
+                sY = (img.height - sH) * 0.2; // keep headroom
+            } else {
+                sW = img.height * windowRatio;
+                sX = (img.width - sW) * 0.35; // keep subject on left-center
+            }
+            context.drawImage(img, sX, sY, sW, sH, 0, 0, w, h);
+            
+            // Subtle radial vignette to soften edges and boost text contrast
+            const dGrad = context.createRadialGradient(w * 0.5, h * 0.5, h * 0.3, w * 0.5, h * 0.5, w * 0.75);
+            dGrad.addColorStop(0, 'rgba(12, 12, 12, 0)');
+            dGrad.addColorStop(1, 'rgba(12, 12, 12, 0.55)');
+            context.fillStyle = dGrad;
+            context.fillRect(0, 0, w, h);
+        }
+        context.restore();
+    }
+
+    const updateImage = index => {
+        let img = images[index - 1];
+        if (!img) {
+            img = loadFrame(index, (loadedImg) => {
+                if (currentFrameIndex === index) {
+                    renderFrameToCanvas(loadedImg);
+                }
+            });
+        }
+        if (img && img.complete && img.naturalWidth > 0) {
+            renderFrameToCanvas(img);
         }
     };
 
@@ -2212,6 +2270,62 @@
                 toggleMenu(false);
             }
         });
+    })();
+
+    // --- INSTANT IN-PAGE ANCHOR NAVIGATION ---
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const hash = this.getAttribute('href');
+            if (!hash || hash === '#') return;
+            const targetEl = document.querySelector(hash);
+            if (targetEl) {
+                e.preventDefault();
+                targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (window.history && window.history.pushState) {
+                    window.history.pushState(null, null, hash);
+                }
+            }
+        });
+    });
+
+    // --- INSTANT ROUTE PREFETCHING ENGINE ---
+    // Prefetches internal pages on hover/touch so clicks navigate in 0-10ms
+    (function setupInstantNavPrefetch() {
+        const prefetched = new Set();
+        function prefetch(url) {
+            if (!url || prefetched.has(url)) return;
+            if (url.startsWith('#') || url.startsWith('mailto:') || url.startsWith('tel:') || url.startsWith('javascript:')) return;
+            if (url.startsWith('http://') || url.startsWith('https://')) {
+                if (!url.startsWith(window.location.origin)) return;
+            }
+            prefetched.add(url);
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = url;
+            document.head.appendChild(link);
+        }
+
+        document.addEventListener('pointerover', function(e) {
+            const a = e.target.closest('a');
+            if (a && a.href && !a.target) prefetch(a.getAttribute('href'));
+        }, { passive: true });
+
+        document.addEventListener('touchstart', function(e) {
+            const a = e.target.closest('a');
+            if (a && a.href && !a.target) prefetch(a.getAttribute('href'));
+        }, { passive: true });
+
+        // Idle prefetch primary internal routes
+        const primaryRoutes = ['about.html', 'services.html', 'pricing.html', 'hire-me.html', 'projects.html'];
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(() => {
+                primaryRoutes.forEach(prefetch);
+            }, { timeout: 1200 });
+        } else {
+            setTimeout(() => {
+                primaryRoutes.forEach(prefetch);
+            }, 300);
+        }
     })();
 </script>
 
@@ -2349,7 +2463,7 @@
     });
 
     // =========================================================
-    // DYNAMIC INFINITE ADS TIMELINE GENERATOR
+    // DYNAMIC INFINITE ADS TIMELINE GENERATOR (OPTIMIZED)
     // =========================================================
     function renderAdsTimeline() {
         const track = document.getElementById('adsTimelineTrack');
@@ -2370,7 +2484,7 @@
             card.setAttribute('tabindex', '0');
 
             const mediaHtml = p.type === 'video'
-                ? `<video src="${p.src}" muted loop playsinline preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause()"></video>`
+                ? `<video src="${p.src}" muted loop playsinline preload="none"></video>`
                 : `<img src="${p.src}" alt="${p.title}" loading="lazy">`;
 
             card.innerHTML = `
@@ -2404,11 +2518,14 @@
         const durationSec = Math.max(24, Math.round(estimatedGroupWidth / 55));
         track.style.setProperty('--timeline-duration', durationSec + 's');
 
-        // Setup hover video preview play/pause for cloned group
+        // Setup hover video preview play/pause on demand
         track.querySelectorAll('.timeline-ad-card').forEach(card => {
             const vid = card.querySelector('video');
             if (vid) {
                 card.addEventListener('mouseenter', () => {
+                    if (vid.preload === 'none') {
+                        vid.preload = 'metadata';
+                    }
                     vid.play().catch(() => {});
                 });
                 card.addEventListener('mouseleave', () => {
@@ -2453,10 +2570,8 @@
         // Pointer Drag & Swipe Interaction
         let isPointerDown = false;
         let startX = 0;
-        let currentTranslate = 0;
 
         viewport.addEventListener('pointerdown', (e) => {
-            // Ignore if clicking a button
             if (e.target.closest('button')) return;
             isPointerDown = true;
             startX = e.clientX;
@@ -2466,13 +2581,12 @@
         window.addEventListener('pointermove', (e) => {
             if (!isPointerDown) return;
             const diff = e.clientX - startX;
-            // Allow slight responsive scrub
             if (Math.abs(diff) > 8) {
                 e.preventDefault();
             }
         });
 
-        window.addEventListener('pointerup', (e) => {
+        window.addEventListener('pointerup', () => {
             if (!isPointerDown) return;
             isPointerDown = false;
             if (!isManuallyPaused) {
@@ -2482,35 +2596,24 @@
     })();
 
     // =========================================================
-    // DYNAMIC CATALOG GRID GENERATOR & CATEGORY FILTERING
+    // HIGH-PERFORMANCE CATALOG GRID & INSTANT CATEGORY FILTERING
     // =========================================================
-    function renderCatalogGrid(activeFilter = 'all') {
+    function initCatalogGrid() {
         const container = document.getElementById('projectsContainer');
         if (!container) return;
 
         container.innerHTML = '';
 
-        const filterMap = {
-            'all': () => true,
-            'product-ad': p => p.category.toLowerCase().includes('product') || p.category.toLowerCase().includes('commercial'),
-            'video-ad': p => p.type === 'video',
-            'social-ad': p => p.category.toLowerCase().includes('social'),
-            'web-design': p => p.category.toLowerCase().includes('web')
-        };
-
-        const isMatch = filterMap[activeFilter] || filterMap['all'];
-
         Object.entries(adProjectsData).forEach(([pId, p]) => {
-            if (!isMatch(p)) return;
-
             const card = document.createElement('div');
             card.className = 'premium-card project-card portfolio-item';
-            card.setAttribute('data-category', activeFilter);
             card.setAttribute('data-project-id', pId);
+            card.setAttribute('data-category-raw', p.category.toLowerCase());
+            card.setAttribute('data-type-raw', p.type);
 
             const mediaHtml = p.type === 'video'
                 ? `<div class="project-video-wrapper">
-                       <video class="project-video" src="${p.src}" muted loop playsinline preload="metadata" onmouseenter="this.play()" onmouseleave="this.pause()"></video>
+                       <video class="project-video" src="${p.src}" muted loop playsinline preload="none" onmouseenter="if(this.preload==='none')this.preload='metadata';this.play().catch(()=>{})" onmouseleave="this.pause()"></video>
                        <div class="video-play-badge">${p.badge || '▶ Video Ad'}</div>
                    </div>`
                 : `<div class="project-image-wrapper">
@@ -2531,7 +2634,7 @@
             `;
 
             card.style.cursor = 'pointer';
-            card.addEventListener('click', (e) => {
+            card.addEventListener('click', () => {
                 openProjectModal(pId);
             });
 
@@ -2539,11 +2642,32 @@
         });
     }
 
+    function filterCatalogGrid(filterValue) {
+        const container = document.getElementById('projectsContainer');
+        if (!container) return;
+        const cards = container.querySelectorAll('.project-card');
+        cards.forEach(card => {
+            const cat = card.getAttribute('data-category-raw') || '';
+            const type = card.getAttribute('data-type-raw') || '';
+            let isMatch = true;
+            if (filterValue === 'product-ad') {
+                isMatch = cat.includes('product') || cat.includes('commercial');
+            } else if (filterValue === 'video-ad') {
+                isMatch = type === 'video';
+            } else if (filterValue === 'social-ad') {
+                isMatch = cat.includes('social');
+            } else if (filterValue === 'web-design') {
+                isMatch = cat.includes('web');
+            }
+            card.style.display = isMatch ? '' : 'none';
+        });
+    }
+
     // Initialize Dynamic Timeline and Catalog
     renderAdsTimeline();
-    renderCatalogGrid('all');
+    initCatalogGrid();
 
-    // Category Filter Buttons Event Setup
+    // Instant Category Filter Buttons Setup (0ms Display Toggle, zero re-renders)
     const filterButtons = document.querySelectorAll('.filter-btn');
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -2551,7 +2675,7 @@
             btn.classList.add('active');
 
             const filterValue = btn.getAttribute('data-filter');
-            renderCatalogGrid(filterValue);
+            filterCatalogGrid(filterValue);
         });
     });
 </script>

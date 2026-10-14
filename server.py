@@ -1,5 +1,6 @@
 import http.server
 import socketserver
+import socket
 import sqlite3
 import json
 import urllib.parse
@@ -236,15 +237,100 @@ def send_email_notification(inquiry_data):
     return email_result
 
 class PortfolioHandler(http.server.SimpleHTTPRequestHandler):
+    protocol_version = "HTTP/1.1"
+
+    def address_string(self):
+        # Eliminate blocking reverse DNS lookups on every request
+        return str(self.client_address[0])
+
     def end_headers(self):
         self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, HEAD")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Range, Authorization")
+        self.send_header("Accept-Ranges", "bytes")
         super().end_headers()
 
     def do_OPTIONS(self):
         self.send_response(200)
         self.end_headers()
+
+    def do_HEAD(self):
+        parsed_url = urllib.parse.urlparse(self.path)
+        clean_routes = {
+            "/hire-me": "/hire-me.html",
+            "/hire": "/hire-me.html",
+            "/pricing": "/pricing.html",
+            "/services": "/services.html",
+            "/projects": "/projects.html",
+            "/contact": "/hire-me.html",
+            "/contact.html": "/hire-me.html",
+            "/about": "/about.html"
+        }
+        if parsed_url.path in clean_routes:
+            self.path = clean_routes[parsed_url.path]
+        super().do_HEAD()
+
+    def send_range_response(self, file_path, range_header):
+        """
+        Implements HTTP 206 Partial Content for video streaming and asset seeking.
+        Prevents full file streaming when browsers only request metadata/chunks.
+        """
+        try:
+            file_size = os.path.getsize(file_path)
+            range_val = range_header.split("=")[1].strip()
+            ranges = range_val.split("-")
+            
+            start_str = ranges[0].strip()
+            end_str = ranges[1].strip() if len(ranges) > 1 else ""
+
+            if start_str and end_str:
+                start = int(start_str)
+                end = int(end_str)
+            elif start_str:
+                start = int(start_str)
+                end = file_size - 1
+            elif end_str:
+                start = max(0, file_size - int(end_str))
+                end = file_size - 1
+            else:
+                start = 0
+                end = file_size - 1
+
+            if start < 0 or start >= file_size or end < start or end >= file_size:
+                self.send_response(416, "Range Not Satisfiable")
+                self.send_header("Content-Range", f"bytes */{file_size}")
+                self.end_headers()
+                return
+
+            length = end - start + 1
+            content_type = self.guess_type(file_path)
+
+            self.send_response(206, "Partial Content")
+            self.send_header("Content-Type", content_type)
+            self.send_header("Content-Range", f"bytes {start}-{end}/{file_size}")
+            self.send_header("Content-Length", str(length))
+            self.send_header("Cache-Control", "public, max-age=86400")
+            self.end_headers()
+
+            with open(file_path, "rb") as f:
+                f.seek(start)
+                bytes_to_send = length
+                buf_size = 64 * 1024
+                while bytes_to_send > 0:
+                    chunk_size = min(bytes_to_send, buf_size)
+                    chunk = f.read(chunk_size)
+                    if not chunk:
+                        break
+                    self.wfile.write(chunk)
+                    bytes_to_send -= len(chunk)
+
+        except (ConnectionResetError, BrokenPipeError):
+            pass
+        except Exception as e:
+            try:
+                self.send_error(500, str(e))
+            except Exception:
+                pass
 
     def do_POST(self):
         parsed_url = urllib.parse.urlparse(self.path)
@@ -484,12 +570,45 @@ class PortfolioHandler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(json.dumps(inquiries).encode("utf-8"))
             return
 
+        # Check for Range header on video or large static files
+        file_path = self.translate_path(self.path)
+        range_header = self.headers.get("Range")
+        if os.path.isfile(file_path) and range_header and range_header.startswith("bytes="):
+            self.send_range_response(file_path, range_header)
+            return
+
         super().do_GET()
+
+
+class DualStackThreadingServer(http.server.ThreadingHTTPServer):
+    daemon_threads = True
+    address_family = socket.AF_INET6
+
+    def server_bind(self):
+        try:
+            self.socket.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_V6ONLY, 0)
+        except Exception:
+            pass
+        super().server_bind()
+
 
 if __name__ == "__main__":
     socketserver.TCPServer.allow_reuse_address = True
-    with socketserver.TCPServer(("", PORT), PortfolioHandler) as httpd:
-        print(f"Portfolio server running on http://localhost:{PORT}...", flush=True)
+    server_started = False
+    
+    # Try IPv6 Dual-Stack first (eliminates Windows localhost 2.2s SYN delay)
+    try:
+        httpd = DualStackThreadingServer(("", PORT), PortfolioHandler)
+        server_started = True
+        print(f"Dual-stack Portfolio server running on http://localhost:{PORT} (IPv4 + IPv6)...", flush=True)
+    except Exception as e:
+        print(f"Dual-stack IPv6 bind unavailable ({e}), falling back to Threading IPv4...", flush=True)
+
+    if not server_started:
+        httpd = http.server.ThreadingHTTPServer(("", PORT), PortfolioHandler)
+        print(f"Threading Portfolio server running on http://localhost:{PORT}...", flush=True)
+
+    with httpd:
         try:
             httpd.serve_forever()
         except KeyboardInterrupt:
