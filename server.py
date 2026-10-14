@@ -19,6 +19,52 @@ UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
 
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://ignbfwluzxiykrvrcxvi.supabase.co")
+SUPABASE_ANON_KEY = os.environ.get(
+    "SUPABASE_ANON_KEY",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlnbmJmd2x1enhpeWtydnJjeHZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5NDc5OTAsImV4cCI6MjEwNzUyMzk5MH0.sA4zVET2OjXp0PLgALAXGqzfGJEytiUCQSKYwBfKBKE"
+)
+
+def save_to_supabase(inquiry_data):
+    """
+    Saves inquiry to Supabase database via REST API.
+    Returns the created record from Supabase or None if failed.
+    """
+    try:
+        url = f"{SUPABASE_URL}/rest/v1/inquiries"
+        payload = {
+            "full_name": inquiry_data.get("full_name"),
+            "email": inquiry_data.get("email"),
+            "phone": inquiry_data.get("phone"),
+            "company": inquiry_data.get("company"),
+            "service": inquiry_data.get("service"),
+            "plan": inquiry_data.get("plan"),
+            "budget": inquiry_data.get("budget"),
+            "deadline": inquiry_data.get("deadline"),
+            "details": inquiry_data.get("details"),
+            "reference_url": inquiry_data.get("reference_url"),
+            "file_name": inquiry_data.get("file_name"),
+            "status": "new"
+        }
+        
+        req_data = json.dumps(payload).encode("utf-8")
+        headers = {
+            "apikey": SUPABASE_ANON_KEY,
+            "Authorization": f"Bearer {SUPABASE_ANON_KEY}",
+            "Content-Type": "application/json",
+            "Prefer": "return=representation"
+        }
+        req = urllib.request.Request(url, data=req_data, headers=headers, method="POST")
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            resp_body = resp.read().decode("utf-8")
+            records = json.loads(resp_body)
+            if records and len(records) > 0:
+                print(f"[SUPABASE SUCCESS]: Saved inquiry #{records[0].get('id')} to Supabase.", flush=True)
+                return records[0]
+    except Exception as e:
+        print(f"[SUPABASE ERROR]: Failed to save to Supabase: {e}", flush=True)
+    return None
+
 def init_db():
     conn = sqlite3.connect(DB_FILE, timeout=30.0)
     conn.execute("PRAGMA journal_mode=WAL;")
@@ -308,6 +354,11 @@ class PortfolioHandler(http.server.SimpleHTTPRequestHandler):
                     "file_name": saved_file_name
                 }
 
+                # Save to Supabase backend
+                supabase_record = save_to_supabase(inquiry_record)
+                if supabase_record:
+                    inquiry_record["supabase_id"] = supabase_record.get("id")
+
                 # Send email notification
                 email_status = send_email_notification(inquiry_record)
 
@@ -317,7 +368,9 @@ class PortfolioHandler(http.server.SimpleHTTPRequestHandler):
                 response_payload = {
                     "success": True,
                     "inquiryId": inquiry_id,
-                    "message": "Your project inquiry has been successfully submitted and stored. I will reach out to you within 24 hours!",
+                    "supabaseId": inquiry_record.get("supabase_id"),
+                    "savedToSupabase": bool(supabase_record),
+                    "message": "Your project inquiry has been successfully submitted and stored in our Supabase backend. I will reach out to you within 24 hours!",
                     "emailStatus": email_status
                 }
                 self.wfile.write(json.dumps(response_payload).encode("utf-8"))
@@ -346,7 +399,57 @@ class PortfolioHandler(http.server.SimpleHTTPRequestHandler):
         if parsed_url.path in clean_routes:
             self.path = clean_routes[parsed_url.path]
 
+        if parsed_url.path == "/api/supabase-config":
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps({
+                "supabaseUrl": SUPABASE_URL,
+                "anonKey": SUPABASE_ANON_KEY
+            }).encode("utf-8"))
+            return
+
         if parsed_url.path == "/api/inquiries":
+            # Attempt to fetch directly from Supabase first
+            supabase_inquiries = None
+            try:
+                url = f"{SUPABASE_URL}/rest/v1/inquiries?select=*&order=id.desc"
+                headers = {
+                    "apikey": SUPABASE_ANON_KEY,
+                    "Authorization": f"Bearer {SUPABASE_ANON_KEY}"
+                }
+                req = urllib.request.Request(url, headers=headers, method="GET")
+                with urllib.request.urlopen(req, timeout=6) as resp:
+                    raw_data = json.loads(resp.read().decode("utf-8"))
+                    supabase_inquiries = []
+                    for d in raw_data:
+                        supabase_inquiries.append({
+                            "id": d.get("id"),
+                            "fullName": d.get("full_name"),
+                            "email": d.get("email"),
+                            "phone": d.get("phone"),
+                            "company": d.get("company"),
+                            "service": d.get("service"),
+                            "plan": d.get("plan"),
+                            "budget": d.get("budget"),
+                            "deadline": d.get("deadline"),
+                            "details": d.get("details"),
+                            "referenceUrl": d.get("reference_url"),
+                            "fileName": d.get("file_name"),
+                            "createdAt": d.get("created_at"),
+                            "source": "supabase"
+                        })
+            except Exception as se:
+                print(f"[SUPABASE FETCH WARNING]: {se}", flush=True)
+
+            if supabase_inquiries is not None:
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps(supabase_inquiries).encode("utf-8"))
+                return
+
+            # Fallback to local SQLite if Supabase unreachable
             conn = sqlite3.connect(DB_FILE, timeout=30.0)
             conn.row_factory = sqlite3.Row
             try:
@@ -369,7 +472,8 @@ class PortfolioHandler(http.server.SimpleHTTPRequestHandler):
                         "details": d.get("details") or d.get("message"),
                         "referenceUrl": d.get("reference_url"),
                         "fileName": d.get("file_name"),
-                        "createdAt": d.get("created_at")
+                        "createdAt": d.get("created_at"),
+                        "source": "sqlite_local"
                     })
             finally:
                 conn.close()

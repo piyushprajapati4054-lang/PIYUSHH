@@ -1119,6 +1119,9 @@
                 submitBtn.innerHTML = 'Sending Project Inquiry... <span class="arrow">&rarr;</span>';
                 statusAlert.style.display = 'none';
 
+                let submitSuccess = false;
+                let inquiryId = null;
+
                 try {
                     const payload = {
                         fullName,
@@ -1135,21 +1138,41 @@
                         fileData: attachedFileData
                     };
 
-                    const response = await fetch('/api/hire', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(payload)
-                    });
+                    // 1. Attempt to post via backend /api/hire (which saves to Supabase + sends email + SQLite)
+                    try {
+                        const response = await fetch('/api/hire', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(payload)
+                        });
 
-                    const result = await response.json();
+                        if (response.ok) {
+                            const result = await response.json();
+                            if (result && result.success) {
+                                submitSuccess = true;
+                                inquiryId = result.supabaseId || result.inquiryId;
+                            }
+                        }
+                    } catch (serverErr) {
+                        console.warn('Backend endpoint unavailable, falling back to direct Supabase integration:', serverErr);
+                    }
 
-                    if (response.ok && result.success) {
+                    // 2. Direct Supabase integration if backend is not available or if running statically
+                    if (!submitSuccess) {
+                        const sbRecord = await submitDirectlyToSupabase(payload);
+                        if (sbRecord) {
+                            submitSuccess = true;
+                            inquiryId = sbRecord.id;
+                        }
+                    }
+
+                    if (submitSuccess) {
                         statusAlert.className = 'hiring-status-alert success';
                         statusAlert.innerHTML = `
                             <strong>&#10003; Project Inquiry Submitted Successfully!</strong><br>
-                            Thank you, <strong>${fullName}</strong>! Your inquiry (#${result.inquiryId}) has been saved to the database and forwarded to <strong>contactwithpiyush.01@gmail.com</strong>.<br>
+                            Thank you, <strong>${fullName}</strong>! Your inquiry${inquiryId ? ` (#${inquiryId})` : ''} has been securely saved to our Supabase backend and recorded for <strong>contactwithpiyush.01@gmail.com</strong>.<br>
                             I will review your project details and get back to you via WhatsApp / Email within 24 hours.
                         `;
                         statusAlert.style.display = 'block';
@@ -1160,13 +1183,13 @@
                         if (filePromptText) filePromptText.style.display = 'block';
                     } else {
                         statusAlert.className = 'hiring-status-alert error';
-                        statusAlert.textContent = result.error || 'Failed to submit inquiry. Please try again.';
+                        statusAlert.textContent = 'Failed to submit inquiry to backend. Please try again or email me directly.';
                         statusAlert.style.display = 'block';
                     }
                 } catch (err) {
                     statusAlert.className = 'hiring-status-alert error';
                     statusAlert.innerHTML = `
-                        Network error connecting to backend. You can email me directly at <a href="mailto:contactwithpiyush.01@gmail.com" style="color:#B6FF6A; text-decoration:underline;">contactwithpiyush.01@gmail.com</a>.
+                        Submission error: ${err.message || 'Network error'}. You can email me directly at <a href="mailto:contactwithpiyush.01@gmail.com" style="color:#B6FF6A; text-decoration:underline;">contactwithpiyush.01@gmail.com</a>.
                     `;
                     statusAlert.style.display = 'block';
                 } finally {
@@ -1174,6 +1197,48 @@
                     submitBtn.innerHTML = 'Send Project Inquiry <span class="arrow">&rarr;</span>';
                 }
             });
+        }
+
+        // Direct Supabase Client Integration
+        const SUPABASE_CONFIG = {
+            url: 'https://ignbfwluzxiykrvrcxvi.supabase.co',
+            anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlnbmJmd2x1enhpeWtydnJjeHZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5NDc5OTAsImV4cCI6MjEwNzUyMzk5MH0.sA4zVET2OjXp0PLgALAXGqzfGJEytiUCQSKYwBfKBKE'
+        };
+
+        async function submitDirectlyToSupabase(payload) {
+            const sbPayload = {
+                full_name: payload.fullName,
+                email: payload.email,
+                phone: payload.phone,
+                company: payload.company || null,
+                service: payload.service,
+                plan: payload.plan || null,
+                budget: payload.budget,
+                deadline: payload.deadline,
+                details: payload.details,
+                reference_url: payload.referenceUrl || null,
+                file_name: payload.fileName || null,
+                status: 'new'
+            };
+
+            const response = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/inquiries`, {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_CONFIG.anonKey,
+                    'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=representation'
+                },
+                body: JSON.stringify(sbPayload)
+            });
+
+            if (!response.ok) {
+                const errText = await response.text();
+                throw new Error(`Supabase error: ${errText}`);
+            }
+
+            const inserted = await response.json();
+            return inserted && inserted[0] ? inserted[0] : inserted;
         }
 
         // Mobile Navigation Drawer Controller
