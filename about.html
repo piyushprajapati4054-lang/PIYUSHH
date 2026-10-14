@@ -120,6 +120,12 @@
             color: white;
         }
 
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
         .btn-talk {
             background: var(--electric-blue);
             color: white;
@@ -130,12 +136,159 @@
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            white-space: nowrap;
         }
 
         .btn-talk:hover {
             background: var(--electric-blue-hover);
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        /* --- Universal Mobile Hamburger Menu & Drawer --- */
+        .mobile-menu-btn {
+            display: none;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            cursor: pointer;
+            padding: 11px 9px;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.25s ease;
+            box-sizing: border-box;
+            z-index: 1002;
+        }
+
+        .mobile-menu-btn:hover,
+        .mobile-menu-btn:focus-visible {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: var(--electric-blue);
+            outline: none;
+        }
+
+        .mobile-menu-btn .menu-bar {
+            width: 22px;
+            height: 2px;
+            background-color: #ffffff;
+            border-radius: 2px;
+            transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.25s ease, background-color 0.25s ease;
+        }
+
+        .mobile-menu-btn.is-active .bar-1 {
+            transform: translateY(7px) rotate(45deg);
+            background-color: var(--electric-blue);
+        }
+
+        .mobile-menu-btn.is-active .bar-2 {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .mobile-menu-btn.is-active .bar-3 {
+            transform: translateY(-7px) rotate(-45deg);
+            background-color: var(--electric-blue);
+        }
+
+        .mobile-nav-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(8, 8, 10, 0.96);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .mobile-nav-drawer.is-open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .mobile-drawer-inner {
+            width: 100%;
+            max-width: 360px;
+            padding: 80px 24px 40px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 22px;
+            transform: translateY(-15px);
+            transition: transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-sizing: border-box;
+        }
+
+        .mobile-nav-drawer.is-open .mobile-drawer-inner {
+            transform: translateY(0);
+        }
+
+        .mobile-drawer-links {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 8px;
+        }
+
+        .mobile-nav-link {
+            color: #d1d1d1;
+            text-decoration: none;
+            font-size: 1.15rem;
+            font-weight: 500;
+            padding: 12px 20px;
+            border-radius: 14px;
+            text-align: center;
+            transition: all 0.25s ease;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: block;
+        }
+
+        .mobile-nav-link:hover,
+        .mobile-nav-link:active,
+        .mobile-nav-link.active {
+            color: #ffffff;
+            background: rgba(59, 130, 246, 0.15);
+            border-color: rgba(59, 130, 246, 0.35);
+            transform: translateX(4px);
+        }
+
+        .mobile-drawer-cta {
+            width: 100%;
+            margin-top: 6px;
+        }
+
+        .mobile-drawer-btn {
+            width: 100%;
+            justify-content: center;
+            padding: 14px 24px;
+            font-size: 1rem;
+            border-radius: 50px;
+            text-decoration: none;
+            box-sizing: border-box;
+            background: var(--electric-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            border: none;
         }
 
         /* --- Hero Section --- */
@@ -426,11 +579,20 @@
         }
 
         @media (max-width: 900px) {
+            nav {
+                padding: 16px 20px !important;
+            }
+            .nav-links {
+                display: none !important;
+            }
+            .mobile-menu-btn {
+                display: flex;
+            }
             .about-hero {
                 flex-direction: column;
                 justify-content: center;
                 text-align: center;
-                padding: 100px 30px 40px 30px;
+                padding: 110px 24px 40px 24px;
             }
             .hero-text-content {
                 transform: translateY(20px);
@@ -441,20 +603,23 @@
                 z-index: 10;
             }
             .hero-title {
-                font-size: 3.5rem;
+                font-size: clamp(2.4rem, 7vw, 3.8rem);
+                line-height: 1.05;
                 margin-bottom: 20px;
             }
             .cta-group {
                 justify-content: center;
                 flex-direction: column;
                 width: 100%;
-                gap: 15px;
+                max-width: 360px;
+                gap: 14px;
             }
             .portrait-container {
                 position: relative;
                 width: 100%;
-                height: 50vh;
-                margin-top: 40px;
+                height: 48vh;
+                max-height: 440px;
+                margin-top: 36px;
                 right: auto;
                 bottom: auto;
             }
@@ -462,12 +627,6 @@
                 object-position: center 10%;
                 mask-image: linear-gradient(to top, transparent 0%, black 20%, black 100%);
                 -webkit-mask-image: linear-gradient(to top, transparent 0%, black 20%, black 100%);
-            }
-            nav {
-                padding: 20px 30px;
-            }
-            .nav-links {
-                display: none; /* simple mobile nav hide for now */
             }
             .bottom-details {
                 position: relative;
@@ -480,13 +639,33 @@
         
         @media (max-width: 768px) {
             .profile-section {
-                padding: 60px 20px 80px 20px;
+                padding: 50px 16px 70px 16px;
             }
             .profile-card {
-                padding: 40px 25px;
+                padding: 36px 20px;
             }
             .profile-desc {
-                font-size: 1.3rem;
+                font-size: 1.25rem;
+                line-height: 1.5;
+            }
+        }
+
+        @media (max-width: 440px) {
+            .about-hero {
+                padding: 95px 16px 30px 16px;
+            }
+            .btn-talk {
+                padding: 10px 18px !important;
+                font-size: 0.82rem !important;
+            }
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                justify-content: center;
+                padding: 14px 20px;
+                font-size: 0.95rem;
+            }
+            .hero-description, .hero-subdescription {
+                font-size: 1rem;
             }
         }
         
@@ -507,7 +686,9 @@
 
     <nav>
         <div class="logo">
-            <span>Work With Piyushh</span>
+            <a href="index.html" style="text-decoration: none; color: inherit;">
+                <span>Work With Piyushh</span>
+            </a>
         </div>
         <div class="nav-links">
             <a href="index.html">Home</a>
@@ -517,8 +698,34 @@
             <a href="projects.html">Projects</a>
             <a href="hire-me.html">Contact</a>
         </div>
-        <a href="hire-me.html" class="btn-talk" style="text-decoration: none;">Hire Me</a>
+        <div class="nav-actions">
+            <a href="hire-me.html" class="btn-talk">Hire Me</a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="menu-bar bar-1"></span>
+                <span class="menu-bar bar-2"></span>
+                <span class="menu-bar bar-3"></span>
+            </button>
+        </div>
     </nav>
+
+    <!-- Accessible Mobile Navigation Overlay Drawer -->
+    <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true">
+        <div class="mobile-drawer-inner">
+            <div class="mobile-drawer-links">
+                <a href="index.html" class="mobile-nav-link">Home</a>
+                <a href="about.html" class="mobile-nav-link active">About</a>
+                <a href="services.html" class="mobile-nav-link">Services</a>
+                <a href="pricing.html" class="mobile-nav-link">Pricing</a>
+                <a href="projects.html" class="mobile-nav-link">Projects</a>
+                <a href="hire-me.html" class="mobile-nav-link">Contact</a>
+            </div>
+            <div class="mobile-drawer-cta">
+                <a href="hire-me.html" class="btn-primary mobile-drawer-btn">
+                    Hire Me &rarr;
+                </a>
+            </div>
+        </div>
+    </div>
 
     <section class="about-hero">
         
@@ -575,6 +782,45 @@
                 observer.observe(card);
             }
         });
+
+        // Mobile Navigation Drawer Controller
+        (function setupMobileNav() {
+            const btn = document.getElementById('mobileMenuBtn');
+            const drawer = document.getElementById('mobileNavDrawer');
+            if (!btn || !drawer) return;
+
+            function toggleMenu(open) {
+                const isOpen = open !== undefined ? open : !drawer.classList.contains('is-open');
+                btn.classList.toggle('is-active', isOpen);
+                btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                drawer.classList.toggle('is-open', isOpen);
+                drawer.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+                document.body.style.overflow = isOpen ? 'hidden' : '';
+            }
+
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleMenu();
+            });
+
+            drawer.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    toggleMenu(false);
+                });
+            });
+
+            drawer.addEventListener('click', (e) => {
+                if (e.target === drawer) {
+                    toggleMenu(false);
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
+                    toggleMenu(false);
+                }
+            });
+        })();
     </script>
 </body>
 </html>

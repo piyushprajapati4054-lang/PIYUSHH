@@ -147,6 +147,12 @@
             font-weight: 600;
         }
 
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
         .nav-home-btn {
             background: transparent;
             color: #ffffff;
@@ -160,12 +166,156 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s var(--ease-premium);
+            white-space: nowrap;
         }
 
         .nav-home-btn:hover {
             background: rgba(255, 255, 255, 0.08);
             border-color: #ffffff;
             transform: translateY(-2px);
+        }
+
+        /* --- Universal Mobile Hamburger Menu & Drawer --- */
+        .mobile-menu-btn {
+            display: none;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            cursor: pointer;
+            padding: 11px 9px;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.25s ease;
+            box-sizing: border-box;
+            z-index: 1002;
+        }
+
+        .mobile-menu-btn:hover,
+        .mobile-menu-btn:focus-visible {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: var(--electric-blue);
+            outline: none;
+        }
+
+        .mobile-menu-btn .menu-bar {
+            width: 22px;
+            height: 2px;
+            background-color: #ffffff;
+            border-radius: 2px;
+            transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.25s ease, background-color 0.25s ease;
+        }
+
+        .mobile-menu-btn.is-active .bar-1 {
+            transform: translateY(7px) rotate(45deg);
+            background-color: var(--accent-lime);
+        }
+
+        .mobile-menu-btn.is-active .bar-2 {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .mobile-menu-btn.is-active .bar-3 {
+            transform: translateY(-7px) rotate(-45deg);
+            background-color: var(--accent-lime);
+        }
+
+        .mobile-nav-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(8, 8, 10, 0.96);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .mobile-nav-drawer.is-open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .mobile-drawer-inner {
+            width: 100%;
+            max-width: 360px;
+            padding: 80px 24px 40px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 22px;
+            transform: translateY(-15px);
+            transition: transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-sizing: border-box;
+        }
+
+        .mobile-nav-drawer.is-open .mobile-drawer-inner {
+            transform: translateY(0);
+        }
+
+        .mobile-drawer-links {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 8px;
+        }
+
+        .mobile-nav-link {
+            color: #d1d1d1;
+            text-decoration: none;
+            font-size: 1.15rem;
+            font-weight: 500;
+            padding: 12px 20px;
+            border-radius: 14px;
+            text-align: center;
+            transition: all 0.25s ease;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: block;
+        }
+
+        .mobile-nav-link:hover,
+        .mobile-nav-link:active,
+        .mobile-nav-link.active {
+            color: #ffffff;
+            background: rgba(182, 255, 106, 0.12);
+            border-color: rgba(182, 255, 106, 0.35);
+            transform: translateX(4px);
+        }
+
+        .mobile-drawer-cta {
+            width: 100%;
+            margin-top: 6px;
+        }
+
+        .mobile-drawer-btn {
+            width: 100%;
+            justify-content: center;
+            padding: 14px 24px;
+            font-size: 1rem;
+            border-radius: 50px;
+            text-decoration: none;
+            box-sizing: border-box;
+            background: var(--accent-lime);
+            color: #0B0B0D;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            border: none;
         }
 
         /* --- Hero Section --- */
@@ -324,7 +474,7 @@
             padding: 16px 20px;
             color: #ffffff;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.98rem;
+            font-size: 16px;
             outline: none;
             transition: all 0.25s ease;
         }
@@ -592,13 +742,50 @@
         }
 
         @media (max-width: 768px) {
-            nav { padding: 22px 24px; }
-            .nav-links { display: none; }
-            .hire-hero { padding: 130px 20px 50px 20px; }
-            .hero-headline { font-size: 2.7rem; }
-            .hero-description { font-size: 1.05rem; }
-            .hiring-card-container { padding: 36px 22px; }
+            nav { padding: 16px 20px !important; }
+            .nav-links { display: none !important; }
+            .mobile-menu-btn { display: flex; }
+            .hire-hero { padding: 120px 20px 35px 20px; }
+            .hero-headline { font-size: clamp(2.2rem, 7vw, 3.2rem); }
+            .hero-description { font-size: 1rem; }
+            .hiring-card-container { padding: 32px 20px; }
             .form-grid-2col { grid-template-columns: 1fr; }
+            .field-input, .field-select, .field-textarea, input, select, textarea {
+                font-size: 16px !important; /* Prevents auto-zoom on iOS Safari */
+                padding: 13px 16px;
+            }
+            .chip-container {
+                gap: 8px;
+            }
+            .service-chip {
+                padding: 10px 16px;
+                font-size: 0.88rem;
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+            }
+            .btn-submit-inquiry {
+                padding: 15px 24px;
+                font-size: 1rem;
+                min-height: 50px;
+            }
+        }
+
+        @media (max-width: 440px) {
+            .nav-home-btn {
+                padding: 9px 16px !important;
+                font-size: 0.82rem !important;
+            }
+            .hiring-card-container {
+                padding: 24px 16px;
+                border-radius: 20px;
+            }
+            .budget-pill-group {
+                grid-template-columns: 1fr;
+            }
+            .form-header-bar {
+                margin-bottom: 24px;
+            }
         }
     </style>
 </head>
@@ -622,10 +809,36 @@
             <a href="hire-me.html" class="active">Hire Me</a>
         </div>
 
-        <a href="index.html" class="nav-home-btn">
-            &larr; Back to Home
-        </a>
+        <div class="nav-actions">
+            <a href="index.html" class="nav-home-btn">
+                &larr; Back to Home
+            </a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="menu-bar bar-1"></span>
+                <span class="menu-bar bar-2"></span>
+                <span class="menu-bar bar-3"></span>
+            </button>
+        </div>
     </nav>
+
+    <!-- Accessible Mobile Navigation Overlay Drawer -->
+    <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true">
+        <div class="mobile-drawer-inner">
+            <div class="mobile-drawer-links">
+                <a href="index.html" class="mobile-nav-link">Home</a>
+                <a href="about.html" class="mobile-nav-link">About</a>
+                <a href="services.html" class="mobile-nav-link">Services</a>
+                <a href="pricing.html" class="mobile-nav-link">Pricing</a>
+                <a href="projects.html" class="mobile-nav-link">Projects</a>
+                <a href="hire-me.html" class="mobile-nav-link active">Hire Me</a>
+            </div>
+            <div class="mobile-drawer-cta">
+                <a href="#hireFormSection" class="btn-primary mobile-drawer-btn">
+                    Project Brief &rarr;
+                </a>
+            </div>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <header class="hire-hero">
@@ -962,6 +1175,45 @@
                 }
             });
         }
+
+        // Mobile Navigation Drawer Controller
+        (function setupMobileNav() {
+            const btn = document.getElementById('mobileMenuBtn');
+            const drawer = document.getElementById('mobileNavDrawer');
+            if (!btn || !drawer) return;
+
+            function toggleMenu(open) {
+                const isOpen = open !== undefined ? open : !drawer.classList.contains('is-open');
+                btn.classList.toggle('is-active', isOpen);
+                btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                drawer.classList.toggle('is-open', isOpen);
+                drawer.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+                document.body.style.overflow = isOpen ? 'hidden' : '';
+            }
+
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleMenu();
+            });
+
+            drawer.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    toggleMenu(false);
+                });
+            });
+
+            drawer.addEventListener('click', (e) => {
+                if (e.target === drawer) {
+                    toggleMenu(false);
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
+                    toggleMenu(false);
+                }
+            });
+        })();
     </script>
 </body>
 </html>
